@@ -89,7 +89,7 @@ public class UserInputLog implements Parcelable{
     }
 
     public void setClickedButtonType(String korrekturbutton) {
-        this.clickedButtonType = "'" + korrekturbutton + "'";
+        this.clickedButtonType = korrekturbutton;
     }
 
     @Override
