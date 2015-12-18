@@ -13,13 +13,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.Wearable;
+import org.w3c.dom.Node;
 
-public class alarmActivity extends AppCompatActivity {
+public class alarmActivity extends AppCompatActivity
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private com.google.android.gms.wearable.Node mNode;
+    private GoogleApiClient mGoogleApiClient;
+    private static final String DEVICE_MAIN = "DeviceMain";
+    private static final String WEAR_PATH = "/from_device";
 
     //TODO: visibility on resume aufheben
     public static final int CONTINUE_REQUEST_CODE = 10;
@@ -49,6 +64,13 @@ public class alarmActivity extends AppCompatActivity {
         //instantiate the data source
         dataSource = new databaseSource(this);
 
+        //Initialize mGoolgeAPIClient
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this )
+                .addOnConnectionFailedListener(this)
+                .build();
+
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
@@ -60,6 +82,65 @@ public class alarmActivity extends AppCompatActivity {
         //TextView textView = (TextView) findViewById(R.id.textView2);
         //textView.setText("A0: " + type[0] + ", " + "A1: " + type[1] + ", " + "A2: " + type[2] + ", " + "A3: " + type[3] + "\n" );
         setContentView(R.layout.activity_alarm);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Wearable.NodeApi.getConnectedNodes(mGoogleApiClient)
+                .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+                    @Override
+                    public void onResult(NodeApi.GetConnectedNodesResult nodes) {
+                        for(com.google.android.gms.wearable.Node node : nodes.getNodes()){
+                            if(node!= null && node.isNearby()) {
+                                mNode = node;
+                                Log.d(DEVICE_MAIN, "Connected to"+ node.getDisplayName());
+                            }
+                            if(mNode==null){
+                                Log.d(DEVICE_MAIN, "Not connected!");
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
+    //sends a message to the wearable
+    public void sendMessage(String alarmType){
+        if(mNode != null && mGoogleApiClient != null){
+            Wearable.MessageApi.sendMessage(mGoogleApiClient,
+                    mNode.getId(), WEAR_PATH, alarmType.getBytes())
+                    .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+                        @Override
+                        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+                            if(!sendMessageResult.getStatus().isSuccess()){
+                                Log.d(WEAR_PATH, "Failed message");
+                            } else {
+                                Log.d(WEAR_PATH, "Message succeeded");
+                            }
+                        }
+                    });
+        }
     }
 
     //sets the timers for the alarm
