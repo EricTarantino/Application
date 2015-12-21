@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.eric.application.MainActivity"
-    tools:deviceIds="wear"
-    android:background="@drawable/alarm">
+    tools:deviceIds="wear">
 
     <FrameLayout
         android:id="@+id/frame_layout"

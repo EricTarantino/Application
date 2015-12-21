@@ -1,6 +1,10 @@
 package com.example.eric.application;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.wearable.activity.WearableActivity;
+import android.support.wearable.view.CardFragment;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;

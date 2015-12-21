@@ -39,7 +39,8 @@
         android:height="100dp"
         android:width="200dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -50,6 +51,7 @@
         android:width="200dp"
         android:height="100dp"
         android:layout_below="@+id/button_datenbrille"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="goToSmartwatchVersuch"/>
 
 </RelativeLayout>

@@ -60,9 +60,10 @@ public class modification_select extends AppCompatActivity {
     }
 
     public void goToSmartwatchVersuch(View view) {
-        Intent alarmActivity = new Intent(this, alarmActivity.class);
+        Intent alarmActivityWatch = new Intent(this, alarmActivity.class);
         ui_Log.setModalitaet(ui_Log.WATCH);
-        startActivity(alarmActivity);
+        alarmActivityWatch.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(alarmActivityWatch);
     }
 
     public void goToDatenbrilleVersuch(View view) {
