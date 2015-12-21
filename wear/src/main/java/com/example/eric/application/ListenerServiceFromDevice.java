@@ -25,7 +25,7 @@ public class ListenerServiceFromDevice extends WearableListenerService {
 
             //Do something with the message
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("alarmTyp",alarmType);
+            intent.putExtra("alarmTyp", alarmType);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

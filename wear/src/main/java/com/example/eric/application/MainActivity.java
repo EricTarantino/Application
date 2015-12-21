@@ -17,8 +17,17 @@ public class MainActivity extends WearableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setAmbientEnabled();
+
+        //TODO:intent wieder aufnehmen
+        if(getIntent().hasExtra("alarmTyp")) {
+            String alarmTyp = getIntent().getStringExtra("alarmTyp");
+            sendNotification(alarmTyp);
+        }
+
+        //wenn message nicht leer ist, dann
+        //verwende message und call sendNotification
+        //mit dem passenden String
     }
 
     @Override
