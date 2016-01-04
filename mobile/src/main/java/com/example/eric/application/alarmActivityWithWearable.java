@@ -17,18 +17,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
-import org.w3c.dom.Node;
 
-public class alarmActivityWatch extends AppCompatActivity
+public class alarmActivityWithWearable extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private com.google.android.gms.wearable.Node mNode;
@@ -51,7 +47,7 @@ public class alarmActivityWatch extends AppCompatActivity
     private final String ALARM_D = "D";
 
     Timer caretaker, caretaker1, caretaker2, caretaker3, caretaker4;
-//    Long caretaker_time, caretaker1_time, caretaker2_time_time, caretaker4_time;
+    //Long caretaker_time, caretaker1_time, caretaker2_time_time, caretaker4_time;
 
     //date for log of popup and click time
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'um' HH:mm:ss:SS");
@@ -70,6 +66,8 @@ public class alarmActivityWatch extends AppCompatActivity
                 .addConnectionCallbacks(this )
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        mGoogleApiClient.connect();
 
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
@@ -126,7 +124,7 @@ public class alarmActivityWatch extends AppCompatActivity
     }
 
     //sends a message to the wearable
-    public void sendMessageToWatch(String alarmType){
+    public void sendMessageToWear(String alarmType){
         if(mNode != null && mGoogleApiClient != null){
             Wearable.MessageApi.sendMessage(mGoogleApiClient,
                     mNode.getId(), WEAR_PATH, alarmType.getBytes())
@@ -225,17 +223,6 @@ public class alarmActivityWatch extends AppCompatActivity
             Log.e("StartActivity", "Error in Settings");
         }
 
-        // Handle item selection
-//        switch (item.getItemId()) {
-//            case R.id.new_game:
-//                newGame();
-//                return true;
-//            case R.id.help:
-//                showHelp();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -265,7 +252,7 @@ public class alarmActivityWatch extends AppCompatActivity
                         dataSource.deleteData(ui_Log);
                         dataSource.close();
                         //do not use onBackPressed, but use finish()
-                        alarmActivityWatch.this.finish();
+                        alarmActivityWithWearable.this.finish();
                     }
                 })
                 .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
@@ -279,21 +266,25 @@ public class alarmActivityWatch extends AppCompatActivity
 
     //Click Handler for the Buttons
     public void button_alarm_AClickHandler(View view) {
+        sendMessageToWear("A");
         ui_Log.setClickedButtonType(ALARM_A);
         button_alarm_ClickHandler_Helper(view);
     }
 
     public void button_alarm_BClickHandler(View view) {
+        sendMessageToWear("B");
         ui_Log.setClickedButtonType(ALARM_B);
         button_alarm_ClickHandler_Helper(view);
     }
 
     public void button_alarm_CClickHandler(View view) {
+        sendMessageToWear("C");
         ui_Log.setClickedButtonType(ALARM_C);
         button_alarm_ClickHandler_Helper(view);
     }
 
     public void button_alarm_DClickHandler(View view) {
+        sendMessageToWear("D");
         ui_Log.setClickedButtonType(ALARM_D);
         button_alarm_ClickHandler_Helper(view);
     }
@@ -320,7 +311,7 @@ public class alarmActivityWatch extends AppCompatActivity
         this.alarmOn = alarmOn;
     }
 
-    //Handler for the Timer, action on Alarm, shows the Alarm on the Screens
+    //Handler for the Timer, action on Alarm
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -354,11 +345,6 @@ public class alarmActivityWatch extends AppCompatActivity
             button.setText("Alarm " + ui_Log.getAlarmtyp());
             ui_Log.setPopuptime(sdf.format(new Date()));
             set_alarmOn(true);
-
-            //Send a message to the Phone
-            sendMessageToWatch(ui_Log.getAlarmtyp());
-
-            //Make button visible
             button.setVisibility(View.VISIBLE);
         }
     };

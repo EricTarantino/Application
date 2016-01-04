@@ -22,7 +22,6 @@
         <activity android:name=".modification_select" />
         <activity android:name=".alarmActivity" />
         <activity android:name=".continueActivity" />
-        <activity android:name=".alarmActivityWatch"></activity>
     </application>
 
 </manifest>

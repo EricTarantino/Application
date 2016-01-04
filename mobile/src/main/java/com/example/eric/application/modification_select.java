@@ -59,17 +59,11 @@ public class modification_select extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goToSmartwatchVersuch(View view) {
-        Intent alarmActivityWatch = new Intent(this, alarmActivity.class);
+    public void goToWearableVersuch(View view) {
+        Intent alarmActivityWithWearable = new Intent(this, alarmActivity.class);
         ui_Log.setModalitaet(ui_Log.WATCH);
-        alarmActivityWatch.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(alarmActivityWatch);
-    }
-
-    public void goToDatenbrilleVersuch(View view) {
-        Intent alarmActivity = new Intent(this, alarmActivity.class);
-        ui_Log.setModalitaet(ui_Log.BRILLE);
-        startActivity(alarmActivity);
+        alarmActivityWithWearable.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(alarmActivityWithWearable);
     }
 
     public void showSettings() {
