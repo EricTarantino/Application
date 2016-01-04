@@ -126,7 +126,7 @@ public class alarmActivity extends AppCompatActivity
     }
 
     //sends a message to the wearable
-    public void sendMessage(String alarmType){
+    public void sendMessageToWear(String alarmType){
         if(mNode != null && mGoogleApiClient != null){
             Wearable.MessageApi.sendMessage(mGoogleApiClient,
                     mNode.getId(), WEAR_PATH, alarmType.getBytes())
@@ -279,6 +279,7 @@ public class alarmActivity extends AppCompatActivity
 
     //Click Handler for the Buttons
     public void button_alarm_AClickHandler(View view) {
+        sendMessageToWear("A");
         ui_Log.setClickedButtonType(ALARM_A);
         button_alarm_ClickHandler_Helper(view);
     }
