@@ -12,5 +12,22 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_box="bottom"></FrameLayout>
+        app:layout_box="bottom">
+
+        <ImageView
+            android:layout_width="154dp"
+            android:layout_height="154dp"
+            android:id="@+id/imageViewAlarm"
+            android:layout_gravity="center"
+            android:src="@drawable/alarm"
+            android:contentDescription="@string/alarm_icon_string"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_square"
+        android:textColor="@android:color/black"/>
 </android.support.wearable.view.BoxInsetLayout>

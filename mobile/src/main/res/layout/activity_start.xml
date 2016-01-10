@@ -51,10 +51,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Message"
-        android:id="@+id/message_button"
+        android:id="@+id/id_button_message"
         android:layout_below="@+id/id_button_start"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/id_textView_willkommen"
+        android:onClick="button_messageClickHandler"
         />
 
 </RelativeLayout>

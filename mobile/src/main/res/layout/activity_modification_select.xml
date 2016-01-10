@@ -40,7 +40,7 @@
         android:width="200dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:onClick="goToWearableVersuchVersuch"
+        android:onClick="goToWearableVersuch"
         />
 
     <Button

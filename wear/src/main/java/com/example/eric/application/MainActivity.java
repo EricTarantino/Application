@@ -1,23 +1,32 @@
 package com.example.eric.application;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.wearable.activity.WearableActivity;
-import android.support.wearable.view.CardFragment;
-import android.widget.TextView;
+import android.util.Log;
 
 import android.app.Activity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
 public class MainActivity extends Activity implements MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks {
 
     private static final String WEAR_MESSAGE_PATH = "/message";
+    private static final String DEVICE_MAIN = "DeviceMain";
+    private static final String MAIN_WEAR = "Wearable Main";
+    private static final String WEAR_PATH = "/from_device";
     private GoogleApiClient mApiClient;
+    private com.google.android.gms.wearable.Node mNode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +35,6 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         initGoogleApiClient();
-
-        //In case that MainActivity was called as an intent from the ListenerService
-        //the notification aka alarm pops up
-        if(getIntent().hasExtra("alarmTyp")) {
-            String alarmTyp = getIntent().getStringExtra("alarmTyp");
-            sendNotification(alarmTyp);
-        }
     }
 
     private void initGoogleApiClient() {
@@ -59,12 +61,43 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
 
     @Override
     public void onMessageReceived( final MessageEvent messageEvent ) {
-
+        Log.d(MAIN_WEAR, "message received");
+        if(messageEvent.getPath().equals(WEAR_PATH)){
+            String alarmType = new String(messageEvent.getData());
+            Log.d(MAIN_WEAR, alarmType);
+            ImageView alarmIcon = (ImageView)findViewById(R.id.imageViewAlarm);
+            if(alarmIcon.getVisibility() == View.VISIBLE) {
+                alarmIcon.setVisibility(View.INVISIBLE);
+            }else if(alarmIcon.getVisibility() == View.INVISIBLE) {
+                alarmIcon.setVisibility(View.VISIBLE);
+            }
+            //Do something with the message
+            //Intent intent = new Intent(this, alarm.class);
+            //intent.putExtra("alarmTyp", alarmType);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+            //        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //startActivity(intent);
+        }
     }
 
     @Override
     public void onConnected(Bundle bundle) {
         Wearable.MessageApi.addListener( mApiClient, this );
+        Wearable.NodeApi.getConnectedNodes(mApiClient)
+                .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+                    @Override
+                    public void onResult(NodeApi.GetConnectedNodesResult nodes) {
+                        for (com.google.android.gms.wearable.Node node : nodes.getNodes()) {
+                            if (node != null && node.isNearby()) {
+                                mNode = node;
+                                Log.d(DEVICE_MAIN, "Connected to" + node.getDisplayName());
+                            }
+                            if (mNode == null) {
+                                Log.d(DEVICE_MAIN, "Not connected!");
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -98,18 +131,5 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
     @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
-    }
-
-    private void sendNotification(String alarmType){
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-
-        CardFragment fragment = CardFragment.create(
-                getString(R.string.alarm_title),
-                alarmType,
-                R.drawable.icon
-        );
-        transaction.add(R.id.frame_layout, fragment);
-        transaction.commit();
     }
 }

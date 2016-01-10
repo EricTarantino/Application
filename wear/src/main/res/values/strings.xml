@@ -4,4 +4,6 @@
     <string name="hello_square">Das ist der App Text!</string>
     <string name="alarm_title">Alarm</string>
     <string name="alarm_description">Type</string>
+    <string name="alarm_pic">alarm</string>
+    <string name="alarm_icon_string">alarm_icon</string>
 </resources>

@@ -60,7 +60,7 @@ public class modification_select extends AppCompatActivity {
     }
 
     public void goToWearableVersuch(View view) {
-        Intent alarmActivityWithWearable = new Intent(this, alarmActivity.class);
+        Intent alarmActivityWithWearable = new Intent(this, alarmActivityWithWearable.class);
         ui_Log.setModalitaet(ui_Log.WATCH);
         alarmActivityWithWearable.putExtra(".hmi.UserInputLog", ui_Log);
         startActivity(alarmActivityWithWearable);
