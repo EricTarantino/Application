@@ -26,33 +26,33 @@
         android:height="100dp"
         android:id="@+id/button_monitor"
         android:layout_marginBottom="50dp"
-        android:layout_above="@+id/button_datenbrille"
-        android:layout_alignLeft="@+id/button_datenbrille"
-        android:layout_alignStart="@+id/button_datenbrille"
+        android:layout_above="@+id/button_smartwatch"
+        android:layout_alignLeft="@+id/button_smartwatch"
+        android:layout_alignStart="@+id/button_smartwatch"
         android:onClick="goToMonitorVersuch" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Datenbrille"
-        android:id="@+id/button_datenbrille"
-        android:height="100dp"
-        android:width="200dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="goToWearableVersuch"
-        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Smartwatch"
         android:id="@+id/button_smartwatch"
+        android:height="100dp"
+        android:width="200dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="goToWatchVersuch"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Datenbrille"
+        android:id="@+id/button_datenbrille"
         android:layout_marginTop="50dp"
         android:width="200dp"
         android:height="100dp"
-        android:layout_below="@+id/button_datenbrille"
+        android:layout_below="@+id/button_smartwatch"
         android:layout_centerHorizontal="true"
-        android:onClick="goToWearableVersuch"/>
+        />
 
 </RelativeLayout>

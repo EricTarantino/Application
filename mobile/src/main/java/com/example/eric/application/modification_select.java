@@ -30,6 +30,13 @@ public class modification_select extends AppCompatActivity {
         startActivity(alarmActivity);
     }
 
+    public void goToWatchVersuch(View view) {
+        Intent alarmActivity = new Intent(this, alarmActivity.class);
+        ui_Log.setModalitaet(ui_Log.WATCH);
+        alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(alarmActivity);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -57,13 +64,6 @@ public class modification_select extends AppCompatActivity {
             Log.e("StartActivity", "Error in Settings");
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void goToWearableVersuch(View view) {
-        Intent alarmActivityWithWearable = new Intent(this, alarmActivityWithWearable.class);
-        ui_Log.setModalitaet(ui_Log.WATCH);
-        alarmActivityWithWearable.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(alarmActivityWithWearable);
     }
 
     public void showSettings() {

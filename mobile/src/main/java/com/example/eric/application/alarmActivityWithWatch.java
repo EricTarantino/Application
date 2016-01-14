@@ -24,11 +24,12 @@ import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
-public class alarmActivityWithWearable extends AppCompatActivity
+
+public class alarmActivityWithWatch extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private com.google.android.gms.wearable.Node mNode;
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mApiClient;
     private static final String DEVICE_MAIN = "DeviceMain";
     private static final String WEAR_PATH = "/from_device";
 
@@ -61,13 +62,14 @@ public class alarmActivityWithWearable extends AppCompatActivity
         dataSource = new databaseSource(this);
 
         //Initialize mGoolgeAPIClient
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this )
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        mGoogleApiClient.connect();
+        if( mApiClient != null && !( mApiClient.isConnected() || mApiClient.isConnecting() ) )
+            mApiClient.connect();
 
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
@@ -82,18 +84,19 @@ public class alarmActivityWithWearable extends AppCompatActivity
         setContentView(R.layout.activity_alarm);
     }
 
+
     @Override
     public void onConnected(Bundle bundle) {
-        Wearable.NodeApi.getConnectedNodes(mGoogleApiClient)
+        Wearable.NodeApi.getConnectedNodes(mApiClient)
                 .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
                     @Override
                     public void onResult(NodeApi.GetConnectedNodesResult nodes) {
-                        for(com.google.android.gms.wearable.Node node : nodes.getNodes()){
-                            if(node!= null && node.isNearby()) {
+                        for (com.google.android.gms.wearable.Node node : nodes.getNodes()) {
+                            if (node != null && node.isNearby()) {
                                 mNode = node;
-                                Log.d(DEVICE_MAIN, "Connected to"+ node.getDisplayName());
+                                Log.d(DEVICE_MAIN, "Connected to" + node.getDisplayName());
                             }
-                            if(mNode==null){
+                            if (mNode == null) {
                                 Log.d(DEVICE_MAIN, "Not connected!");
                             }
                         }
@@ -114,19 +117,19 @@ public class alarmActivityWithWearable extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        mApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+        mApiClient.disconnect();
     }
 
     //sends a message to the wearable
     public void sendMessageToWear(String alarmType){
-        if(mNode != null && mGoogleApiClient != null){
-            Wearable.MessageApi.sendMessage(mGoogleApiClient,
+        if(mNode != null && mApiClient != null){
+            Wearable.MessageApi.sendMessage(mApiClient,
                     mNode.getId(), WEAR_PATH, alarmType.getBytes())
                     .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
@@ -249,10 +252,10 @@ public class alarmActivityWithWearable extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with delete
                         cancelTimers();
-                        dataSource.deleteData(ui_Log);
+                        dataSource.deleteData(ui_Log.getUser_id());
                         dataSource.close();
                         //do not use onBackPressed, but use finish()
-                        alarmActivityWithWearable.this.finish();
+                        alarmActivityWithWatch.this.finish();
                     }
                 })
                 .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
@@ -265,26 +268,22 @@ public class alarmActivityWithWearable extends AppCompatActivity
     }
 
     //Click Handler for the Buttons
-    public void button_alarm_AClickHandler(View view) {
-        sendMessageToWear("A");
+    public void button_alarm_AClickHandlerWithWear(View view) {
         ui_Log.setClickedButtonType(ALARM_A);
         button_alarm_ClickHandler_Helper(view);
     }
 
-    public void button_alarm_BClickHandler(View view) {
-        sendMessageToWear("B");
+    public void button_alarm_BClickHandlerWithWear(View view) {
         ui_Log.setClickedButtonType(ALARM_B);
         button_alarm_ClickHandler_Helper(view);
     }
 
-    public void button_alarm_CClickHandler(View view) {
-        sendMessageToWear("C");
+    public void button_alarm_CClickHandlerWithWear(View view) {
         ui_Log.setClickedButtonType(ALARM_C);
         button_alarm_ClickHandler_Helper(view);
     }
 
-    public void button_alarm_DClickHandler(View view) {
-        sendMessageToWear("D");
+    public void button_alarm_DClickHandlerWithWear(View view) {
         ui_Log.setClickedButtonType(ALARM_D);
         button_alarm_ClickHandler_Helper(view);
     }
@@ -342,6 +341,7 @@ public class alarmActivityWithWearable extends AppCompatActivity
                 }break;
                 default: break;
             }
+            sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
             button.setText("Alarm " + ui_Log.getAlarmtyp());
             ui_Log.setPopuptime(sdf.format(new Date()));
             set_alarmOn(true);

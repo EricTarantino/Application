@@ -37,6 +37,7 @@ public class databaseHelper extends SQLiteOpenHelper {
     protected static final String CLICKEDTYP = "correctiontype";
     protected static final String POPUPTIME = "popup_time";
     protected static final String CLICKTIME = "click_time";
+    protected static final String CLEARING = "clearing";
 
     //Table create statement
     private static final String TABLE_CREATE =
@@ -48,7 +49,8 @@ public class databaseHelper extends SQLiteOpenHelper {
                     + ALARMTYP + " TEXT, "
                     + CLICKEDTYP + " TEXT, "
                     + POPUPTIME + " TEXT, "
-                    + CLICKTIME + " TEXT "
+                    + CLICKTIME + " TEXT, "
+                    + CLEARING + " TEXT "
                     + ");";
 
     public databaseHelper(Context context){
@@ -81,7 +83,6 @@ public class databaseHelper extends SQLiteOpenHelper {
     public String exportDatabase(Context context) {
 
         //DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-
         /**First of all we check if the external storage of the device is available for writing.
          * Remember that the external storage is not necessarily the sd card. Very often it is
          * the device storage.
@@ -104,10 +105,7 @@ public class databaseHelper extends SQLiteOpenHelper {
 
             try {
                 file = new File(exportDir, "maxi_db.csv");
-
                 file.createNewFile();
-
-
                 printWriter = new PrintWriter(new FileWriter(file));
 
                 /**This is our database connector class that reads the data from the database.
@@ -116,7 +114,6 @@ public class databaseHelper extends SQLiteOpenHelper {
 
                 databaseSource dbcOurDatabaseConnector = new databaseSource(context);
                 dbcOurDatabaseConnector.open(); //open the database for reading
-
                 /**Let's read the first table of the database.
                  * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
                  * containing all records of the table (all fields).
@@ -126,16 +123,19 @@ public class databaseHelper extends SQLiteOpenHelper {
                 Cursor curCSV = this.getCursor();
                 //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
                 printWriter.println("FIRST TABLE OF THE DATABASE");
-                printWriter.println("DATE,ITEM,AMOUNT,CURRENCY");
+                printWriter.println("KEY_ROW_ID,USER_ID,VERSUCH,MODALITÄT," +
+                        "ALARMTYP,CLICKEDTYP,POPUPTIME,CLICKTIME,KORREKTUR");
+
                 while (curCSV.moveToNext()) {
-                    Long key_rowid = curCSV.getLong(curCSV.getColumnIndex("id"));
-                    String user_id = curCSV.getString(curCSV.getColumnIndex("user_id"));
-                    double versuch = curCSV.getDouble(curCSV.getColumnIndex("versuch"));
-                    String modalitaet = curCSV.getString(curCSV.getColumnIndex("modalitaet"));
-                    long alarmtype = curCSV.getLong(curCSV.getColumnIndex("alarmtype"));
-                    String clickedtype = curCSV.getString(curCSV.getColumnIndex("correctiontype"));
-                    double popup_time = curCSV.getDouble(curCSV.getColumnIndex("popup_time"));
-                    String click_time = curCSV.getString(curCSV.getColumnIndex("click_time"));
+                    Long key_rowid = curCSV.getLong(curCSV.getColumnIndex(KEY_ROWID));
+                    String user_id = curCSV.getString(curCSV.getColumnIndex(USER_ID));
+                    String versuch = curCSV.getString(curCSV.getColumnIndex(VERSUCH));
+                    String modalitaet = curCSV.getString(curCSV.getColumnIndex(MODALITÄT));
+                    String alarmtype = curCSV.getString(curCSV.getColumnIndex(ALARMTYP));
+                    String clickedtype = curCSV.getString(curCSV.getColumnIndex(CLICKEDTYP));
+                    String popup_time = curCSV.getString(curCSV.getColumnIndex(POPUPTIME));
+                    String click_time = curCSV.getString(curCSV.getColumnIndex(CLICKTIME));
+                    String clearing = curCSV.getString(curCSV.getColumnIndex(CLEARING));
 
                     /**Create the line to write in the .csv file.
                      * We need a String where values are comma separated.
@@ -144,10 +144,9 @@ public class databaseHelper extends SQLiteOpenHelper {
                      */
 
                     String record = key_rowid + "," + user_id + "," + versuch + "," + modalitaet + "," + alarmtype
-                            + "," + clickedtype + "," + popup_time + "," + click_time;
+                            + "," + clickedtype + "," + popup_time + "," + click_time + "," + clearing;
                     printWriter.println(record); //write the record in the .csv file
                 }
-
                 curCSV.close();
                 dbcOurDatabaseConnector.close();
             } catch (Exception e) {
@@ -161,4 +160,18 @@ public class databaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public String emptyDatabase(String userID) {
+       try {
+           SQLiteDatabase db = getWritableDatabase();
+           db.delete(TABLENAME, USER_ID + " =  " + userID, null);
+
+       } catch (Exception e) {
+                //if there are any exceptions, return false
+                return "Leeren der Datenbank fehlgeschlagen";
+       } finally {
+
+       }
+       //If there are no errors, return true.
+       return "Database ist leer";
+    }
 }

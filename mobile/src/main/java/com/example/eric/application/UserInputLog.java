@@ -15,11 +15,12 @@ public class UserInputLog implements Parcelable{
     private String clickedButtonType;
     private String popuptime;
     private String clicktime;
+    private String clearing;
 
     //Namen der Modalität
     public final String MONITOR = "Monitor";
-    public final String BRILLE = "Brille";
     public final String WATCH = "Watch";
+    public final String BRILLE = "Brille";
 
     UserInputLog(){
 
@@ -33,7 +34,7 @@ public class UserInputLog implements Parcelable{
         alarmtyp = in.readString();
         clickedButtonType = in.readString();
         popuptime = in.readString();
-        clicktime = in.readString();
+        clearing = in.readString();
     }
 
     public long getUser_id() {
@@ -42,6 +43,14 @@ public class UserInputLog implements Parcelable{
 
     public void setUser_id(long user_id) {
         this.user_id = user_id;
+    }
+
+    public String getClearing() {
+        if(getAlarmtyp()==getClickedButtonType()) {
+            return "ja";
+        }else {
+            return "fehler";
+        }
     }
 
     public int getVersuch() {
@@ -57,7 +66,7 @@ public class UserInputLog implements Parcelable{
     }
 
     public void setModalitaet(String modalitaet) {
-        this.modalitaet = "'" + modalitaet + "'";
+        this.modalitaet = modalitaet;
     }
 
     public String getAlarmtyp() {
@@ -73,7 +82,7 @@ public class UserInputLog implements Parcelable{
     }
 
     public void setPopuptime(String popuptime) {
-        this.popuptime = "'" + popuptime + "'";
+        this.popuptime = popuptime;
     }
 
     public String getClicktime() {
@@ -81,7 +90,7 @@ public class UserInputLog implements Parcelable{
     }
 
     public void setClicktime(String clicktime) {
-        this.clicktime = "'" + clicktime + "'";
+        this.clicktime = clicktime;
     }
 
     public String getClickedButtonType() {
@@ -99,14 +108,15 @@ public class UserInputLog implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        Log.i("UILog Operation","writeToParcel");
+        Log.i("UILog Operation", "writeToParcel");
         dest.writeLong(user_id);
-        dest.writeString(modalitaet);
         dest.writeInt(versuch);
+        dest.writeString(modalitaet);
         dest.writeString(alarmtyp);
         dest.writeString(clickedButtonType);
         dest.writeString(popuptime);
         dest.writeString(clicktime);
+        dest.writeString(clearing);
     }
 
     //To pass Log Information, make UserInput parcelable

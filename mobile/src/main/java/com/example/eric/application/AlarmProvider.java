@@ -30,10 +30,15 @@ public class AlarmProvider {
 
         //Generate random delays, 10 sec in the beginning
         //10 seconds delay, 10 seconds left until program end
-        delay[0] = delayToNext + (int)(Math.random() * 105000);
-        delay[1] = 160000 + delayToNext + (int)(Math.random() * 105000);
-        delay[2] = 320000 + delayToNext + (int)(Math.random() * 105000);
-        delay[3] = 480000 + delayToNext + (int)(Math.random() * 95000);
+        //delay[0] = delayToNext + (int)(Math.random() * 105000);
+        //delay[1] = 160000 + delayToNext + (int)(Math.random() * 105000);
+        //delay[2] = 320000 + delayToNext + (int)(Math.random() * 105000);
+        //delay[3] = 480000 + delayToNext + (int)(Math.random() * 95000);
+
+        delay[0] = 5000;
+        delay[1] = 20000;
+        delay[2] = 30000;
+        delay[3] = 40000;
 
         Collections.shuffle(type_List);
         setAlarmType(type_List);

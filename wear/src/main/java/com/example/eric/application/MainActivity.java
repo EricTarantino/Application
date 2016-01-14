@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -64,11 +65,13 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
         Log.d(MAIN_WEAR, "message received");
         if(messageEvent.getPath().equals(WEAR_PATH)){
             String alarmType = new String(messageEvent.getData());
-            Log.d(MAIN_WEAR, alarmType);
+            TextView appText = (TextView) findViewById(R.id.text_wear);
             ImageView alarmIcon = (ImageView)findViewById(R.id.imageViewAlarm);
             if(alarmIcon.getVisibility() == View.VISIBLE) {
+                appText.setText("Es wurde momentan kein Alarm ausgeloest.");
                 alarmIcon.setVisibility(View.INVISIBLE);
             }else if(alarmIcon.getVisibility() == View.INVISIBLE) {
+                appText.setText(alarmType);
                 alarmIcon.setVisibility(View.VISIBLE);
             }
             //Do something with the message

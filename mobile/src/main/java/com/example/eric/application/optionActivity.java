@@ -82,6 +82,7 @@ public class optionActivity extends AppCompatActivity{
     }
 
     public void OnClickEmpty(View view) {
+        emptyDatabase(this);
     }
 
     public void OnClickExport(View view) {
@@ -112,6 +113,17 @@ public class optionActivity extends AppCompatActivity{
         //set duration of toast
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, exportResult, duration);
+        toast.show();
+    }
+
+    public void emptyDatabase(Context context) {
+
+        EditText id_shower = (EditText) findViewById(R.id.editText_options_id_show);
+        String emptyResult = dbHelper.emptyDatabase(id_shower.getText().toString());
+
+        //set duration of toast
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, emptyResult, duration);
         toast.show();
     }
 }

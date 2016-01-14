@@ -36,8 +36,10 @@ public class databaseSource{
         values.put(databaseHelper.VERSUCH, ui_Log.getVersuch());
         values.put(databaseHelper.MODALITÄT, ui_Log.getModalitaet());
         values.put(databaseHelper.ALARMTYP, ui_Log.getAlarmtyp());
+        values.put(databaseHelper.CLICKEDTYP, ui_Log.getClickedButtonType());
         values.put(databaseHelper.POPUPTIME, ui_Log.getPopuptime());
         values.put(databaseHelper.CLICKTIME, ui_Log.getClicktime());
+        values.put(databaseHelper.CLEARING, ui_Log.getClearing());
         database.insert(databaseHelper.TABLENAME, null, values);
         Log.e("Database Source", "ONE ROW INSERTED...");
         return ui_Log;
@@ -46,22 +48,6 @@ public class databaseSource{
     public void deleteData(long User) {
         String whereClause =
                 databaseHelper.USER_ID + " = " + User;
-        database.delete(databaseHelper.TABLENAME, whereClause, null);
-    }
-
-    public void deleteData(UserInputLog ui_Log) {
-        String whereClause =
-                databaseHelper.USER_ID + " = " + ui_Log.getUser_id() + " AND " +
-                        databaseHelper.VERSUCH + " = " + ui_Log.getVersuch() + " AND " +
-                        databaseHelper.MODALITÄT + " = " + ui_Log.getModalitaet();
-        database.delete(databaseHelper.TABLENAME, whereClause, null);
-    }
-
-    public void deleteData(long user_id, int versuch, String modalität) {
-        String whereClause =
-                databaseHelper.USER_ID + " = " + user_id + " AND " +
-                        databaseHelper.VERSUCH + " = " + versuch + " AND " +
-                        databaseHelper.MODALITÄT + " = " + modalität;
         database.delete(databaseHelper.TABLENAME, whereClause, null);
     }
 
@@ -78,28 +64,4 @@ public class databaseSource{
         }
         Log.e(LOG, "Database closed");
     }
-
-//    public void deleteData(long user_id, int versuch, String modalität) {
-//
-//    }
-
-//    public void deleteData(long user_id, int versuch, String modalität) {
-//
-//    }
-
-    //Add user data with explicit information
-    //public void addInformation(long user_id, String versuch, String modalität,
-    //                           String alarmtyp, String popuptime, String clicktime){
-    //
-    //      UserInputLog UI_Log = new UserInputLog();
-    //      UI_Log.setUser_id(user_id);
-    //      UI_Log.setVersuch(versuch);
-    //      UI_Log.setModalitaet(modalität);
-    //      UI_Log.setAlarmtyp(alarmtyp);
-    //      UI_Log.setPopuptime(popuptime);
-    //      UI_Log.setClicktime(clicktime);
-    //
-    //      create(UI_Log);
-    //      Log.e("DATABASE OPERATIONS", "CLICK INFO INSERTED...");
-    //}
 }
