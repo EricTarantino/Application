@@ -15,12 +15,12 @@
         android:text="@string/text_alarm_x"
         android:id="@+id/id_button_alarm"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="#ffffff"
         android:layout_alignParentTop="true"
         android:layout_marginTop="40dp"
         android:visibility="invisible"
         android:layout_centerHorizontal="true"
-        />
+        android:background="@drawable/buttonalarm" />
 
     <Button
         android:layout_width="200dp"
@@ -28,12 +28,13 @@
         android:gravity="center"
         android:text="@string/text_alarm_a_beheben"
         android:id="@+id/id_button_alarm_a_beheben"
-        android:textSize="20sp"
-        android:textColor="#000"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
         android:onClick="button_alarm_AClickHandler"
         android:layout_alignTop="@+id/id_button_alarm_d_beheben"
         android:layout_toLeftOf="@+id/textView2"
         android:layout_toStartOf="@+id/textView2"
+        android:background="@drawable/buttonclearing"
         />
 
     <Button
@@ -42,26 +43,26 @@
         android:gravity="center"
         android:text="@string/text_alarm_b_beheben"
         android:id="@+id/id_button_alarm_b_beheben"
-        android:textSize="20sp"
-        android:textColor="#000"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
         android:onClick="button_alarm_BClickHandler"
         android:layout_alignTop="@+id/id_button_alarm_c_beheben"
         android:layout_toLeftOf="@+id/id_button_alarm_c_beheben"
         android:layout_toStartOf="@+id/id_button_alarm_c_beheben"
-        />
+        android:background="@drawable/buttonclearing" />
 
     <Button
         android:layout_width="200dp"
         android:layout_height="120dp"
         android:text="@string/text_alarm_c_beheben"
         android:id="@+id/id_button_alarm_c_beheben"
-        android:textSize="20sp"
-        android:textColor="#000"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
         android:onClick="button_alarm_CClickHandler"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/id_button_alarm_d_beheben"
         android:layout_toStartOf="@+id/id_button_alarm_d_beheben"
-        />
+        android:background="@drawable/buttonclearing" />
 
     <Button
         android:layout_width="200dp"
@@ -69,13 +70,13 @@
         android:gravity="center"
         android:text="@string/text_alarm_d_beheben"
         android:id="@+id/id_button_alarm_d_beheben"
-        android:textSize="20sp"
-        android:textColor="#000"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
         android:onClick="button_alarm_DClickHandler"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2"
-        />
+        android:background="@drawable/buttonclearing" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -87,7 +88,7 @@
         android:layout_alignStart="@+id/id_button_alarm"
         android:layout_alignRight="@+id/id_button_alarm"
         android:layout_alignEnd="@+id/id_button_alarm"
-        android:textColor="#000"
+        android:textColor="#ffffff"
         android:width="500dp"
         />
 
@@ -126,6 +127,15 @@
         android:layout_centerHorizontal="true"
         />
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_alarm_beheben"
+        android:id="@+id/textView_Alarm_beheben"
+        android:layout_above="@+id/id_button_alarm_b_beheben"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:textSize="30sp" />
 
 </RelativeLayout>

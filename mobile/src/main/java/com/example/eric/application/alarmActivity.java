@@ -80,8 +80,7 @@ public class alarmActivity extends AppCompatActivity
         ui_Log.setVersuch(1);
         setTimers();
         set_alarmOn(false);
-        //TextView textView = (TextView) findViewById(R.id.textView2);
-        //textView.setText("A0: " + type[0] + ", " + "A1: " + type[1] + ", " + "A2: " + type[2] + ", " + "A3: " + type[3] + "\n" );
+
         setContentView(R.layout.activity_alarm);
     }
 
@@ -469,11 +468,6 @@ public class alarmActivity extends AppCompatActivity
         caretaker4.cancel();
         Log.i("Activity", "Timers canceled");
     }
-
-//    private void pauseTimers(){
-//        Timer caretaker, caretaker1, caretaker2, caretaker3, caretaker4;
-//        Long caretaker_time, caretaker1_time, caretaker2_time_time, caretaker4_time;
-//    }
 
     private void showSettings() {
         Intent settings = new Intent(this, optionActivity.class);

@@ -24,12 +24,14 @@
         android:text="Monitor"
         android:width="200dp"
         android:height="100dp"
+        android:textColor="#ffffff"
         android:id="@+id/button_monitor"
         android:layout_marginBottom="50dp"
         android:layout_above="@+id/button_smartwatch"
         android:layout_alignLeft="@+id/button_smartwatch"
         android:layout_alignStart="@+id/button_smartwatch"
-        android:onClick="goToMonitorVersuch" />
+        android:onClick="goToMonitorVersuch"
+        android:background="@drawable/buttonstandard" />
 
     <Button
         android:layout_width="wrap_content"
@@ -38,9 +40,11 @@
         android:id="@+id/button_smartwatch"
         android:height="100dp"
         android:width="200dp"
+        android:textColor="#ffffff"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:onClick="goToWatchVersuch"
+        android:background="@drawable/buttonstandard"
         />
 
     <Button
@@ -50,9 +54,11 @@
         android:id="@+id/button_datenbrille"
         android:layout_marginTop="50dp"
         android:width="200dp"
+        android:textColor="#ffffff"
         android:height="100dp"
         android:layout_below="@+id/button_smartwatch"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/buttonstandard"
         />
 
 </RelativeLayout>

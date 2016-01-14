@@ -7,10 +7,10 @@
     <string name="text_textView_willkommen">Herzlich willkommen.</string>
     <string name="title_activity_alarm">Teil 1 HMI</string>
     <string name="text_alarm_x">Alarm</string>
-    <string name="text_alarm_a_beheben">Alarm A beheben</string>
-    <string name="text_alarm_b_beheben">Alarm B beheben</string>
-    <string name="text_alarm_c_beheben">Alarm C beheben</string>
-    <string name="text_alarm_d_beheben">Alarm D beheben</string>
+    <string name="text_alarm_a_beheben">A</string>
+    <string name="text_alarm_b_beheben">B</string>
+    <string name="text_alarm_c_beheben">C</string>
+    <string name="text_alarm_d_beheben">D</string>
     <string name="title_activity_continue">Dankeschön</string>
     <string name="text_button_fortfahren">Fortfahren</string>
     <string name="text_textView_fortfahren">Bitte wenden Sie sich an die Versuchsleitung bevor Sie fortfahren.</string>
@@ -33,5 +33,6 @@
     <string name="weiter">Weiter</string>
     <string name="title_activity_modification_select">modification_select</string>
     <string name="options_delete_text">Lösche Daten zu ID:</string>
+    <string name="text_alarm_beheben">Alarm beheben:</string>
 </resources>
 

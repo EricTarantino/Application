@@ -29,10 +29,11 @@
         android:text="@string/text_button_start"
         android:id="@+id/id_button_start"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="#ffffff"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="button_startClickHandler"
+        android:background="@drawable/buttonstandard"
         />
 
     <TextView

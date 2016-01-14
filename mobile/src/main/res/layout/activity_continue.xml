@@ -28,10 +28,12 @@
         android:text="@string/text_button_fortfahren"
         android:id="@+id/id_button_fortfahren"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="#ffffff"
         android:layout_below="@+id/id_textView_fortfahren"
         android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
-        android:onClick="nextModification"/>
+        android:onClick="nextModification"
+        android:layout_alignParentEnd="false"
+        android:background="@drawable/buttonclearing" />
 
 </RelativeLayout>
