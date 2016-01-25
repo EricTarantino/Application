@@ -10,8 +10,22 @@ import android.view.View;
 import android.widget.EditText;
 
 public class idEingabe extends AppCompatActivity {
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     //databaseSource dataSource;
     UserInputLog ui_Log = new UserInputLog();
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +63,14 @@ public class idEingabe extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class functions to provide the essential class functionality                  //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     public void clickOnIDButton(View view){
         ClickOnIDButton_Helper();
-    }
-
-    private void showSettings() {
-        ClickOnIDButton_Helper();
-        Intent settings = new Intent(this, optionActivity.class);
-        settings.putExtra(".hmi.UserInputLog",  ui_Log);
-        startActivity(settings);
-    }
-
-    private boolean isNewID(long ID){
-        //TODO: Check if ID is unused
-        //dont overwrite former data, check if this a an unused ID
-
-        return true;
     }
 
     private void ClickOnIDButton_Helper(){
@@ -81,5 +87,19 @@ public class idEingabe extends AppCompatActivity {
         }catch(Exception e) {
             Log.e("IDEingabe", "Cant parse ID");
         }
+    }
+
+    private boolean isNewID(long ID){
+        //TODO: Check if ID is unused
+        //dont overwrite former data, check if this a an unused ID
+
+        return true;
+    }
+
+    private void showSettings() {
+        ClickOnIDButton_Helper();
+        Intent settings = new Intent(this, optionActivity.class);
+        settings.putExtra(".hmi.UserInputLog",  ui_Log);
+        startActivity(settings);
     }
 }

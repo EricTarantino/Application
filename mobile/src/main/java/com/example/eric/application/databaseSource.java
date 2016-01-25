@@ -14,20 +14,38 @@ import android.util.Log;
 
 public class databaseSource{
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     // Logcat tag
     private static final String LOG = "DatabaseSource";
 
     //Database is used by databaseHelper methods
     SQLiteDatabase database;
 
-    //The Helper provides all methods which are not
-    // directly on the database but use SQLiteOpenHelper
+    //The Helper provides all methods which are not directly on the database but use SQLiteOpenHelper
     SQLiteOpenHelper dbHelper;
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // constructors, getters, setters                                                //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     public databaseSource(Context context){
         //create database
         dbHelper = new databaseHelper(context);
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     //Add user data by use of modified UI_Log
     public UserInputLog create(UserInputLog ui_Log){
@@ -45,6 +63,15 @@ public class databaseSource{
         return ui_Log;
     }
 
+    //close database, here for logcat
+    public void close(){
+        if (database != null) {
+            dbHelper.close();
+        }
+        Log.e(LOG, "Database closed");
+    }
+
+    //deletes data of a user
     public void deleteData(long User) {
         String whereClause =
                 databaseHelper.USER_ID + " = " + User;
@@ -55,13 +82,5 @@ public class databaseSource{
     public void open(){
         database = dbHelper.getWritableDatabase();
         Log.e(LOG, "Database opened");
-    }
-
-    //close database, here for logcat
-    public void close(){
-        if (database != null) {
-            dbHelper.close();
-        }
-        Log.e(LOG, "Database closed");
     }
 }

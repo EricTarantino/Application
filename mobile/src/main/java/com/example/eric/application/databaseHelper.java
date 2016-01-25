@@ -16,6 +16,12 @@ import java.io.PrintWriter;
 
 public class databaseHelper extends SQLiteOpenHelper {
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     // Logcat tag
     private static final String LOG = "DatabaseHelper";
 
@@ -52,6 +58,11 @@ public class databaseHelper extends SQLiteOpenHelper {
                     + CLICKTIME + " TEXT, "
                     + CLEARING + " TEXT "
                     + ");";
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // constructors, getters, setters                                                //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     public databaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -65,18 +76,39 @@ public class databaseHelper extends SQLiteOpenHelper {
         Log.e(LOG, "Database finished");
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLENAME);
         onCreate(db);
     }
 
-    //Get Cursor to the database
-    public Cursor getCursor(){
-        String query = "SELECT * FROM "+"db_table_name";
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        return cursor;
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class functions to provide the essential class functionality                  //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //empties the data base
+    public String emptyDatabase(String userID) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete(TABLENAME, USER_ID + " =  " + userID, null);
+
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            return "Leeren der Datenbank fehlgeschlagen";
+        } finally {
+
+        }
+        //If there are no errors, return true.
+        return "Database ist leer";
     }
 
     //exports the data base
@@ -160,18 +192,11 @@ public class databaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String emptyDatabase(String userID) {
-       try {
-           SQLiteDatabase db = getWritableDatabase();
-           db.delete(TABLENAME, USER_ID + " =  " + userID, null);
-
-       } catch (Exception e) {
-                //if there are any exceptions, return false
-                return "Leeren der Datenbank fehlgeschlagen";
-       } finally {
-
-       }
-       //If there are no errors, return true.
-       return "Database ist leer";
+    //Get Cursor to the database
+    public Cursor getCursor(){
+        String query = "SELECT * FROM "+"db_table_name";
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
     }
 }

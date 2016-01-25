@@ -13,36 +13,48 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-
+/**
+ * Created by Eric van Lessen, eric.van@rwth-aachen.de, eric.vanlessen@live.de on 23.01.2016.
+ * Description of the class:
+ */
 public class alarmActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    // for the connection to the Wearable
     private com.google.android.gms.wearable.Node mNode;
     private GoogleApiClient mApiClient;
     private static final String DEVICE_MAIN = "DeviceMain";
     private static final String WEAR_PATH = "/from_device";
 
-    //TODO: visibility on resume aufheben
-    public static final int CONTINUE_REQUEST_CODE = 10;
+    // variables for the alarm
+    protected static final int CONTINUE_REQUEST_CODE = 10;
     private AlarmProvider alarm = new AlarmProvider();
     private int [] type = alarm.getAlarms();
-    int counterModification=0;
     private boolean alarmOn;
+
+    // connection to the database
     databaseSource dataSource;
+
+    // log data which is passed between activities
     UserInputLog ui_Log;
 
+    //helper variables to
     private final String ALARM_A = "A";
     private final String ALARM_B = "B";
     private final String ALARM_C = "C";
@@ -54,105 +66,27 @@ public class alarmActivity extends AppCompatActivity
     //date for log of popup and click time
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'um' HH:mm:ss:SS");
 
-    //do this on start
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // constructors, getters, setters                                                //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
-        //instantiate the data source
-        dataSource = new databaseSource(this);
-
-        //Initialize mGoolgeAPIClient
-        mApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .addConnectionCallbacks(this )
-                .addOnConnectionFailedListener(this)
-                .build();
-
-        if( mApiClient != null && !( mApiClient.isConnected() || mApiClient.isConnecting() ) )
-            mApiClient.connect();
-
-        //Get the parcelable object to move around data
-        Bundle b = getIntent().getExtras();
-        ui_Log = b.getParcelable(".hmi.UserInputLog");
-
-        //this is the first part of the lab
-        ui_Log.setVersuch(1);
-        setTimers();
-        set_alarmOn(false);
-
-        setContentView(R.layout.activity_alarm);
+    private boolean getAlarmOn() {
+        return alarmOn;
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        Wearable.NodeApi.getConnectedNodes(mApiClient)
-                .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
-                    @Override
-                    public void onResult(NodeApi.GetConnectedNodesResult nodes) {
-                        for (com.google.android.gms.wearable.Node node : nodes.getNodes()) {
-                            if (node != null && node.isNearby()) {
-                                mNode = node;
-                                Log.d(DEVICE_MAIN, "Connected to" + node.getDisplayName());
-                            }
-                            if (mNode == null) {
-                                Log.d(DEVICE_MAIN, "Not connected!");
-                            }
-                        }
-                    }
-                });
+    private void setAlarmOn(boolean alarmOn) {
+        this.alarmOn = alarmOn;
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        dataSource.open();
-        mApiClient.connect();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mApiClient.disconnect();
-        dataSource.close();
-    }
-
-    //sends a message to the wearable
-    public void sendMessageToWear(String alarmType){
-        if(mNode != null && mApiClient != null){
-            Wearable.MessageApi.sendMessage(mApiClient,
-                    mNode.getId(), WEAR_PATH, alarmType.getBytes())
-                    .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
-                        @Override
-                        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-                            if(!sendMessageResult.getStatus().isSuccess()){
-                                Log.d(WEAR_PATH, "Failed message");
-                            } else {
-                                Log.d(WEAR_PATH, "Message succeeded");
-                            }
-                        }
-                    });
-        }
-    }
-
-    //sets the timers for the alarm
     private void setTimers() {
 
         TimerTask action = new TimerTask() {
             public void run() {
-                Message msg = handler.obtainMessage();
+                Message msg = handlerAlarmOn.obtainMessage();
                 msg.arg1 = type[0];
-                handler.sendMessage(msg);
+                handlerAlarmOn.sendMessage(msg);
             }
         };
         caretaker = new Timer();
@@ -160,9 +94,9 @@ public class alarmActivity extends AppCompatActivity
 
         TimerTask action1 = new TimerTask() {
             public void run() {
-                Message msg = handler.obtainMessage();
+                Message msg = handlerAlarmOn.obtainMessage();
                 msg.arg1 = type[1];
-                handler.sendMessage(msg);
+                handlerAlarmOn.sendMessage(msg);
             }
         };
         caretaker1 = new Timer();
@@ -170,9 +104,9 @@ public class alarmActivity extends AppCompatActivity
 
         TimerTask action2 = new TimerTask() {
             public void run() {
-                Message msg = handler.obtainMessage();
+                Message msg = handlerAlarmOn.obtainMessage();
                 msg.arg1 = type[2];
-                handler.sendMessage(msg);
+                handlerAlarmOn.sendMessage(msg);
             }
         };
         caretaker2 = new Timer();
@@ -181,9 +115,9 @@ public class alarmActivity extends AppCompatActivity
 
         TimerTask action3 = new TimerTask() {
             public void run() {
-                Message msg = handler.obtainMessage();
+                Message msg = handlerAlarmOn.obtainMessage();
                 msg.arg1 = type[3];
-                handler.sendMessage(msg);
+                handlerAlarmOn.sendMessage(msg);
             }
         };
         caretaker3 = new Timer();
@@ -196,52 +130,15 @@ public class alarmActivity extends AppCompatActivity
         };
         caretaker4 = new Timer();
         //caretaker4.schedule(action4, 640000);
-        caretaker4.schedule(action4, 50000);
+        caretaker4.schedule(action4, 90000);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_alarm, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        // Handle item selection
-        try{
-            switch (id) {
-                case R.id.action_settings:
-                    cancelTimers();
-                    dataSource.close();
-                    showSettings();
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
-        }catch(Exception e) {
-            Log.e("StartActivity", "Error in Settings");
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        dataSource.open();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        dataSource.close();
-    }
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onBackPressed() {
@@ -269,33 +166,173 @@ public class alarmActivity extends AppCompatActivity
                 .show();
     }
 
+    //do this on start
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //instantiate the data source
+        dataSource = new databaseSource(this);
+
+        //Initialize mGoolgeAPIClient
+        mApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this )
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        if( mApiClient != null && !( mApiClient.isConnected() || mApiClient.isConnecting() ) )
+            mApiClient.connect();
+
+        //Get the parcelable object to move around data
+        Bundle b = getIntent().getExtras();
+        ui_Log = b.getParcelable(".hmi.UserInputLog");
+
+        //this is the first part of the lab
+        ui_Log.setVersuch(1);
+        setTimers();
+        setAlarmOn(false);
+
+        setContentView(R.layout.activity_alarm);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_alarm, menu);
+        return true;
+    }
+
+    //on connection to the wearable
+    @Override
+    public void onConnected(Bundle bundle) {
+        Wearable.NodeApi.getConnectedNodes(mApiClient)
+                .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+                    @Override
+                    public void onResult(NodeApi.GetConnectedNodesResult nodes) {
+                        for (com.google.android.gms.wearable.Node node : nodes.getNodes()) {
+                            if (node != null && node.isNearby()) {
+                                mNode = node;
+                                Log.d(DEVICE_MAIN, "Connected to" + node.getDisplayName());
+                            }
+                            if (mNode == null) {
+                                Log.d(DEVICE_MAIN, "Not connected!");
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    //refers to the option button on the upper right corner of the application
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        // Handle item selection
+        try{
+            switch (id) {
+                case R.id.action_settings:
+                    cancelTimers();
+                    dataSource.close();
+                    showSettings();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }catch(Exception e) {
+            Log.e("StartActivity", "Error in Settings");
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dataSource.close();
+    }
+    @Override
+
+    protected void onResume() {
+        super.onResume();
+        dataSource.open();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dataSource.open();
+        mApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mApiClient.disconnect();
+        dataSource.close();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // click handlers for the buttons in this activity                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     //Click Handler for the Buttons
     public void button_alarm_AClickHandler(View view) {
         ui_Log.setClickedButtonType(ALARM_A);
         button_alarm_ClickHandler_Helper();
     }
 
+    //Click Handler for the Button
     public void button_alarm_BClickHandler(View view) {
         ui_Log.setClickedButtonType(ALARM_B);
         button_alarm_ClickHandler_Helper();
     }
 
+    //Click Handler for the Button
     public void button_alarm_CClickHandler(View view) {
         ui_Log.setClickedButtonType(ALARM_C);
         button_alarm_ClickHandler_Helper();
     }
 
+    //Click Handler for the Button
     public void button_alarm_DClickHandler(View view) {
         ui_Log.setClickedButtonType(ALARM_D);
         button_alarm_ClickHandler_Helper();
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class functions to provide the essential class functionality                  //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //Passes the the user input log data to the database, then a row is added to the database
+    //which includes all current log information
+    private void addClickData(){
+        ui_Log.setClicktime(sdf.format(new Date()));
+        dataSource.create(ui_Log);
+    }
+
     //Helping Method for the Button Click Handler
     private void button_alarm_ClickHandler_Helper(){
-        if(get_alarmOn()) {
+        if(getAlarmOn()) {
             if (ui_Log.getAlarmtyp() == ui_Log.getClickedButtonType()) {
                 Button button = (Button) findViewById(R.id.id_button_alarm);
-                set_alarmOn(false);
+                setAlarmOn(false);
                 button.setVisibility(View.INVISIBLE);
             }
             addClickData();
@@ -303,17 +340,78 @@ public class alarmActivity extends AppCompatActivity
         }
     }
 
-    //To control whether alarm is on or off
-    public boolean get_alarmOn() {
-        return alarmOn;
+    private void cancelTimers(){
+        caretaker.cancel();
+        caretaker1.cancel();
+        caretaker2.cancel();
+        caretaker3.cancel();
+        caretaker4.cancel();
+        Log.i("Activity", "Timers canceled");
     }
 
-    public void set_alarmOn(boolean alarmOn) {
-        this.alarmOn = alarmOn;
+    //handler helper to call the get supervisor to continue screen
+    private void goToContinueActivity(){
+        dataSource.close();
+        Intent continueIntent = new Intent(this, continueActivity.class);
+        continueIntent.putExtra(".hmi.UserInputLog",  ui_Log);
+        startActivityForResult(continueIntent, CONTINUE_REQUEST_CODE);
     }
+
+    //sends a message to the wearable
+    private void sendMessageToWear(String alarmType){
+        if(mNode != null && mApiClient != null){
+            Wearable.MessageApi.sendMessage(mApiClient,
+                    mNode.getId(), WEAR_PATH, alarmType.getBytes())
+                    .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+                        @Override
+                        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+                            if (!sendMessageResult.getStatus().isSuccess()) {
+                                Log.d(WEAR_PATH, "Failed message");
+                            } else {
+                                Log.d(WEAR_PATH, "Message succeeded");
+                            }
+                        }
+                    });
+        }
+    }
+
+    //This method calls the Correction Show handlerAlarmOn
+    private void showCorrection() {
+        Runnable r = new Runnable() {
+            //use a Thread to wait for two seconds
+            @Override
+            public void run() {
+                long futureTime = System.currentTimeMillis() + 3000;
+                handlerCorrectionFadeIn.sendEmptyMessage(0);
+                while(System.currentTimeMillis() < futureTime){
+                    synchronized (this){
+                        try{
+                            wait(futureTime - System.currentTimeMillis());
+                        }catch(Exception ignored){}
+                    }
+                }
+                handlerCorrectionFadeOut.sendEmptyMessage(0);
+            }
+        };
+        Thread waitThread = new Thread(r);
+        waitThread.start();
+    }
+
+    //Opens the options menu window
+    private void showSettings() {
+        Intent settings = new Intent(this, optionActivity.class);
+        settings.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(settings);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // handler on behaviour of functions                                             //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     //Handler for the Timer, action on Alarm
-    Handler handler = new Handler(){
+    Handler handlerAlarmOn = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             //TextView textView = (TextView) findViewById(R.id.textView2);
@@ -344,50 +442,37 @@ public class alarmActivity extends AppCompatActivity
                 default: break;
             }
 
-            //if(ui_Log.getModalitaet() == ui_Log.WATCH){
-            //   sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
-            //}
+
+            sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
+            sendMessageToWear("On");
+
             sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
 
             button.setText("Alarm " + ui_Log.getAlarmtyp());
             ui_Log.setPopuptime(sdf.format(new Date()));
-            set_alarmOn(true);
+            setAlarmOn(true);
             button.setVisibility(View.VISIBLE);
         }
     };
 
-    //This method calls the Correction Show handler
-    private void showCorrection() {
-        Runnable r = new Runnable() {
-            //use a Thread to wait for two seconds
-            @Override
-            public void run() {
-                long futureTime = System.currentTimeMillis() + 3000;
-                handlerCorrectionShow.sendEmptyMessage(0);
-                while(System.currentTimeMillis() < futureTime){
-                    synchronized (this){
-                        try{
-                            wait(futureTime - System.currentTimeMillis());
-                        }catch(Exception ignored){}
-                    }
-                }
-                handlerCorrectionUnshow.sendEmptyMessage(0);
-            }
-        };
-        Thread waitThread = new Thread(r);
-        waitThread.start();
-    }
+    //Handler to get supervisor after this modification is dealt with
+    Handler handlerContinue = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            goToContinueActivity();
+        }
+    };
 
     //Handler gives the user feedback about the alarm correction for 3 sec
-    Handler handlerCorrectionShow = new Handler(){
+    Handler handlerCorrectionFadeIn = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             TextView tv = (TextView) findViewById(R.id.id_fehler_behoben);
-            if(get_alarmOn()){
+            if(getAlarmOn()){
                 tv.setText(R.string.fehler_nicht_behoben);
             }else {
                 tv.setText(R.string.fehler_behoben);
-                sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
+                sendMessageToWear("Off");
             }
             tv.setVisibility(View.VISIBLE);
             Button button = (Button) findViewById(R.id.id_button_alarm);
@@ -403,7 +488,8 @@ public class alarmActivity extends AppCompatActivity
         }
     };
 
-    Handler handlerCorrectionUnshow = new Handler(){
+    //Handler fades out the feedback about the alarm correction
+    Handler handlerCorrectionFadeOut = new Handler(){
         @Override
         public void handleMessage(Message msg) {
 
@@ -418,60 +504,11 @@ public class alarmActivity extends AppCompatActivity
             button_c.setVisibility(View.VISIBLE);
             button_d.setVisibility(View.VISIBLE);
 
-            if (get_alarmOn()){
+            if (getAlarmOn()){
                 Button button = (Button) findViewById(R.id.id_button_alarm);
                 button.setVisibility(View.VISIBLE);
             }
         }
     };
-
-    //Handler to get supervisor after this modification is dealt with
-    Handler handlerContinue = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            goToContinueActivity();
-        }
-    };
-
-    //Handler helper to call the get supervisor to continue screen
-    public void goToContinueActivity(){
-        dataSource.close();
-        Intent continueIntent = new Intent(this, continueActivity.class);
-        continueIntent.putExtra(".hmi.UserInputLog",  ui_Log);
-        startActivityForResult(continueIntent, CONTINUE_REQUEST_CODE);
-    }
-
-    // TODO: Is onActivityResult necessary?
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==CONTINUE_REQUEST_CODE){
-            if(resultCode==RESULT_OK){
-                counterModification = data.getIntExtra(continueActivity.COUNTER, 0);
-            }
-        }
-        setTimers();
-        TextView textView = (TextView) findViewById(R.id.textView2);
-        textView.setText("");
-    }
-
-    //Adds Log Data to the
-    private void addClickData(){
-        ui_Log.setClicktime(sdf.format(new Date()));
-        dataSource.create(ui_Log);
-    }
-
-    private void cancelTimers(){
-        caretaker.cancel();
-        caretaker1.cancel();
-        caretaker2.cancel();
-        caretaker3.cancel();
-        caretaker4.cancel();
-        Log.i("Activity", "Timers canceled");
-    }
-
-    private void showSettings() {
-        Intent settings = new Intent(this, optionActivity.class);
-        settings.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(settings);
-    }
 }
+

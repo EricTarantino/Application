@@ -8,6 +8,13 @@ import android.util.Log;
  * Created by e.lessen on 16.11.2015.
  */
 public class UserInputLog implements Parcelable{
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     private long user_id=0;
     private int versuch;
     private String modalitaet;
@@ -21,6 +28,12 @@ public class UserInputLog implements Parcelable{
     public final String MONITOR = "Monitor";
     public final String WATCH = "Watch";
     public final String BRILLE = "Brille";
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // constructors, getters, setters                                                //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     UserInputLog(){
 
@@ -37,12 +50,8 @@ public class UserInputLog implements Parcelable{
         clearing = in.readString();
     }
 
-    public long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public String getAlarmtyp() {
+        return alarmtyp;
     }
 
     public String getClearing() {
@@ -53,53 +62,63 @@ public class UserInputLog implements Parcelable{
         }
     }
 
-    public int getVersuch() {
-        return versuch;
-    }
-
-    public void setVersuch(int versuch) {
-        this.versuch = versuch;
-    }
-
-    public String getModalitaet() {
-        return modalitaet;
-    }
-
-    public void setModalitaet(String modalitaet) {
-        this.modalitaet = modalitaet;
-    }
-
-    public String getAlarmtyp() {
-        return alarmtyp;
-    }
-
-    public void setAlarmtyp(String alarmtyp) {
-        this.alarmtyp = alarmtyp;
-    }
-
-    public String getPopuptime() {
-        return popuptime;
-    }
-
-    public void setPopuptime(String popuptime) {
-        this.popuptime = popuptime;
-    }
-
     public String getClicktime() {
         return clicktime;
-    }
-
-    public void setClicktime(String clicktime) {
-        this.clicktime = clicktime;
     }
 
     public String getClickedButtonType() {
         return clickedButtonType;
     }
 
+    public String getModalitaet() {
+        return modalitaet;
+    }
+
+    public String getPopuptime() {
+        return popuptime;
+    }
+
+    public long getUser_id() {
+        return user_id;
+    }
+
+    public int getVersuch() {
+        return versuch;
+    }
+
+    public void setAlarmtyp(String alarmtyp) {
+        this.alarmtyp = alarmtyp;
+    }
+
+    public void setClicktime(String clicktime) {
+        this.clicktime = clicktime;
+    }
+
     public void setClickedButtonType(String korrekturbutton) {
         this.clickedButtonType = korrekturbutton;
     }
+
+    public void setModalitaet(String modalitaet) {
+        this.modalitaet = modalitaet;
+    }
+
+    public void setPopuptime(String popuptime) {
+        this.popuptime = popuptime;
+    }
+
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setVersuch(int versuch) {
+        this.versuch = versuch;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class functions to provide the essential class functionality                  //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public int describeContents() {

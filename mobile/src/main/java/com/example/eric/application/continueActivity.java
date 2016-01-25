@@ -6,15 +6,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-//import android.widget.Button;
-//import android.widget.TextView;
+
+/**
+ * Created by Eric van Lessen, eric.van@rwth-aachen.de, eric.vanlessen@live.de on 23.01.2016.
+ * Description of the class:
+ */
 
 public class continueActivity extends AppCompatActivity {
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     UserInputLog ui_Log;
 
-    public static final String COUNTER = "counter";
-//    private Integer modificationCounter;
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +35,7 @@ public class continueActivity extends AppCompatActivity {
         ui_Log = b.getParcelable(".hmi.UserInputLog");
 
         super.onCreate(savedInstanceState);
-//        modificationCounter = getIntent().getIntExtra(alarmActivity.COUNTER, 0);
-//        if(modificationCounter==3){
-//            TextView textView = (TextView) findViewById(R.id.id_textView_fortfahren);
-//            textView.setText("Versuch 1 ist beendet.");
-//            Button button = (Button) findViewById(R.id.id_button_fortfahren);
-//            button.setText("Weiter mit Versuch 2");
-//        }
         setContentView(R.layout.activity_continue);
-
     }
 
     @Override
@@ -53,13 +58,13 @@ public class continueActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO: selectCondition needs to be the caller
-    public void nextModification(View view) {
-//        if(modificationCounter!=3){
-//            getIntent().putExtra(COUNTER, modificationCounter + 1);
-//            setResult(RESULT_OK, getIntent());
-//            finish();
-//        }
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // click handlers for the buttons in this activity                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    public void button_continue_ClickHandler(View view) {
         Intent modificationSelect = new Intent(this, modification_select.class);
         modificationSelect.putExtra(".hmi.UserInputLog", ui_Log);
         startActivity(modificationSelect);

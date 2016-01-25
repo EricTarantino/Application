@@ -10,7 +10,25 @@ import android.view.View;
 
 public class modification_select extends AppCompatActivity {
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     UserInputLog ui_Log;
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void onBackPressed() {
+        //backpressing is deactivated
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,20 +39,6 @@ public class modification_select extends AppCompatActivity {
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
-    }
-
-    public void goToMonitorVersuch(View view) {
-        Intent alarmActivity = new Intent(this, alarmActivity.class);
-        ui_Log.setModalitaet(ui_Log.MONITOR);
-        alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(alarmActivity);
-    }
-
-    public void goToWatchVersuch(View view) {
-        Intent alarmActivity = new Intent(this, alarmActivity.class);
-        ui_Log.setModalitaet(ui_Log.WATCH);
-        alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(alarmActivity);
     }
 
     @Override
@@ -64,6 +68,26 @@ public class modification_select extends AppCompatActivity {
             Log.e("StartActivity", "Error in Settings");
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class functions to provide the essential class functionality                  //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    public void goToMonitorVersuch(View view) {
+        Intent alarmActivity = new Intent(this, alarmActivity.class);
+        ui_Log.setModalitaet(ui_Log.MONITOR);
+        alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(alarmActivity);
+    }
+
+    public void goToWatchVersuch(View view) {
+        Intent alarmActivity = new Intent(this, alarmActivity.class);
+        ui_Log.setModalitaet(ui_Log.WATCH);
+        alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(alarmActivity);
     }
 
     public void showSettings() {

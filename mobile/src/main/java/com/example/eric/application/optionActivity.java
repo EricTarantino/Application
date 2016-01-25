@@ -26,10 +26,23 @@ import android.widget.Toast;
 
 public class optionActivity extends AppCompatActivity{
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     databaseHelper dbHelper;
     UserInputLog ui_Log;
     String strID;
     //String LOG = "optionActivity";
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,40 +58,19 @@ public class optionActivity extends AppCompatActivity{
         id_shower.setText(strID);
     }
 
-    //TODO: Nice to have, function as parameter to confirm the delete, abstract or interface
-    public void OnClickPart1(View view) {
-
-    }
-
-    public void OnClickPart2(View view) {
-
-    }
-
-    public void OnClickHMI(View view) {
-        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
-        //button.setBackgroundColor(Color.BLUE);
-    }
-
-    public void OnClickGlasses(View view) {
-        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
-        //button.setBackgroundColor(Color.BLUE);
-    }
-
-    public void OnClickWatch(View view) {
-        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
-        //button.setBackgroundColor(Color.BLUE);
-    }
-
     public void OnClickConfirm1(View view) {
+    }
+
+    public void OnClickConfirm2(View view) {
+        //dataSource.deleteData(getEditTextID(), 1, ui_Log.WATCH);
+    }
+
+    public void OnClickConfirm3(View view) {
     }
 
     public void OnClickDatabase(View view) {
         //Button button = (Button) findViewById(R.id.button_id_Options_Database);
         //button.setBackgroundColor(Color.BLUE);
-    }
-
-    public void OnClickConfirm2(View view) {
-        //dataSource.deleteData(getEditTextID(), 1, ui_Log.WATCH);
     }
 
     public void OnClickEmpty(View view) {
@@ -89,8 +81,35 @@ public class optionActivity extends AppCompatActivity{
         exportDatabase(this);
     }
 
-    public void OnClickConfirm3(View view) {
+    public void OnClickGlasses(View view) {
+        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
+        //button.setBackgroundColor(Color.BLUE);
     }
+
+    public void OnClickHMI(View view) {
+        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
+        //button.setBackgroundColor(Color.BLUE);
+    }
+
+    //TODO: Nice to have, function as parameter to confirm the delete, abstract or interface
+    public void OnClickPart1(View view) {
+
+    }
+
+    public void OnClickPart2(View view) {
+
+    }
+
+    public void OnClickWatch(View view) {
+        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
+        //button.setBackgroundColor(Color.BLUE);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class functions to provide the essential class functionality                  //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     private long getEditTextID(){
         EditText id_shower = (EditText) findViewById(R.id.editText_options_id_show);

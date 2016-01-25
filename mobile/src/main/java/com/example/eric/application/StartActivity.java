@@ -8,6 +8,13 @@ import android.view.View;
 
 public class StartActivity extends AppCompatActivity{
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,14 +28,20 @@ public class StartActivity extends AppCompatActivity{
         return true;
     }
 
-    public void button_startClickHandler(View view) {
-        Intent idEingabe = new Intent(this, idEingabe.class);
-        startActivity(idEingabe);
-    }
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // click handlers for the buttons in this activity                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    public void button_startClickHandler(View view) {
+        Intent idEingabe = new Intent(this, idEingabe.class);
+        startActivity(idEingabe);
     }
 }
 

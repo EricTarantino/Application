@@ -1,13 +1,10 @@
 package com.example.eric.application;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
 import android.app.Activity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +18,13 @@ import com.google.android.gms.wearable.Wearable;
 
 public class MainActivity extends Activity implements MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks {
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class variables                                                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //provides the functionality to connect to the watch
     private static final String WEAR_MESSAGE_PATH = "/message";
     private static final String DEVICE_MAIN = "DeviceMain";
     private static final String MAIN_WEAR = "Wearable Main";
@@ -28,60 +32,12 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
     private GoogleApiClient mApiClient;
     private com.google.android.gms.wearable.Node mNode;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        initGoogleApiClient();
-    }
-
-    private void initGoogleApiClient() {
-        mApiClient = new GoogleApiClient.Builder( this )
-                .addApi( Wearable.API )
-                .addConnectionCallbacks( this )
-                .build();
-
-        if( mApiClient != null && !( mApiClient.isConnected() || mApiClient.isConnecting() ) )
-            mApiClient.connect();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if( mApiClient != null && !( mApiClient.isConnected() || mApiClient.isConnecting() ) )
-            mApiClient.connect();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onMessageReceived( final MessageEvent messageEvent ) {
-        Log.d(MAIN_WEAR, "message received");
-        if(messageEvent.getPath().equals(WEAR_PATH)){
-            String alarmType = new String(messageEvent.getData());
-            TextView appText = (TextView) findViewById(R.id.text_wear);
-            ImageView alarmIcon = (ImageView)findViewById(R.id.imageViewAlarm);
-            if(alarmIcon.getVisibility() == View.VISIBLE) {
-                appText.setText("Es wurde momentan kein Alarm ausgeloest.");
-                alarmIcon.setVisibility(View.INVISIBLE);
-            }else if(alarmIcon.getVisibility() == View.INVISIBLE) {
-                appText.setText(alarmType);
-                alarmIcon.setVisibility(View.VISIBLE);
-            }
-            //Do something with the message
-            //Intent intent = new Intent(this, alarm.class);
-            //intent.putExtra("alarmTyp", alarmType);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-            //        Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //startActivity(intent);
-        }
-    }
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // activity methods, reaction on changes to the application                      //
+    // the functions are self-explaining by their name                               //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -104,14 +60,17 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
     }
 
     @Override
-    protected void onStop() {
-        if ( mApiClient != null ) {
-            Wearable.MessageApi.removeListener( mApiClient, this );
-            if ( mApiClient.isConnected() ) {
-                mApiClient.disconnect();
-            }
-        }
-        super.onStop();
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        initGoogleApiClient();
     }
 
     @Override
@@ -122,17 +81,68 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-//    @Override
-//    public void onExitAmbient() {
-//        super.onExitAmbient();
-//    }
-
-    @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
     }
+
+    @Override
+    public void onMessageReceived( final MessageEvent messageEvent ) {
+        Log.d(MAIN_WEAR, "message received");
+        if(messageEvent.getPath().equals(WEAR_PATH)) {
+            String alarmType = new String(messageEvent.getData());
+            TextView appText = (TextView) findViewById(R.id.text_alarm_wear);
+            ImageView alarmIcon = (ImageView) findViewById(R.id.imageViewAlarm);
+
+            if (alarmType=="Off") {
+                alarmIcon.setVisibility(View.INVISIBLE);
+            }
+            if (alarmType=="On") {
+                alarmIcon.setVisibility(View.VISIBLE);
+                appText.setVisibility(View.VISIBLE);
+            } else {
+                appText.setText(alarmType);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if( mApiClient != null && !( mApiClient.isConnected() || mApiClient.isConnecting() ) )
+            mApiClient.connect();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        if ( mApiClient != null ) {
+            Wearable.MessageApi.removeListener( mApiClient, this );
+            if ( mApiClient.isConnected() ) {
+                mApiClient.disconnect();
+            }
+        }
+        super.onStop();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // class functions to provide the essential class functionality                  //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //realises the connection to the watch
+    private void initGoogleApiClient() {
+        mApiClient = new GoogleApiClient.Builder( this )
+                .addApi( Wearable.API )
+                .addConnectionCallbacks( this )
+                .build();
+
+        if( mApiClient != null && !( mApiClient.isConnected() || mApiClient.isConnecting()) )
+            mApiClient.connect();
+    }
+
 }
