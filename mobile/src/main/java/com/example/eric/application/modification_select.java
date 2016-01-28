@@ -95,5 +95,12 @@ public class modification_select extends AppCompatActivity {
         settings.putExtra(".hmi.UserInputLog", ui_Log);
         startActivity(settings);
     }
+
+    public void goToVersuch2(View view){
+        Intent versuch2 = new Intent(this, modification_select_2.class);
+        ui_Log.setModalitaet(ui_Log.WATCH);
+        versuch2.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(versuch2);
+    }
 }
 

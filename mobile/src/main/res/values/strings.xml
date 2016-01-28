@@ -25,7 +25,7 @@
     <string name="title_activity_select_condition">Modifikation</string>
     <string name="title_activity_select">select</string>
     <string name="title_activity_test">test</string>
-    <string name="text_kondition">Versuchsteil 1: Bitte wählen Sie eine Modalität aus.</string>
+    <string name="text_kondition">Versuchsteil 1</string>
     <string name="fehler_nicht_behoben">Falsche Fehlerkorrektur, dieser Alarm wurde nicht ausgeloest</string>
     <string name="fehler_behoben">Fehler behoben</string>
     <string name="title_activity_settings">Optionen</string>
@@ -34,5 +34,8 @@
     <string name="title_activity_modification_select">modification_select</string>
     <string name="options_delete_text">Lösche Daten zu ID:</string>
     <string name="text_alarm_beheben">Alarm beheben:</string>
+    <string name="text_kondition_2">Versuchsteil 2</string>
+    <string name="string_button_versuch2">Prozess 1 starten</string>
+    <string name="string_text_versuch2">Empty</string>
 </resources>
 

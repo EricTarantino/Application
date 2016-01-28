@@ -4,38 +4,45 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 /**
- * Created by Eric van Lessen, eric.van@rwth-aachen.de, eric.vanlessen@live.de on 23.01.2016.
  * Description of the class:
  *
  * VARIABLES:
  * private int [] delay:
- * There are four time intervals with one alarm each
- * represented by delay[0],...,delay[3] where delay[x]
- * holds an alarm times from t0 (beginning of the part
- * of the experiment).
+ * There are four timer variables represented by
+ * delay[0],...,delay[3] where delay[x]
  *
- * delayToNext:
- * This is the delay from beginning of one alarm interval
- * to avoid the occurance of two alarms in less than 15 s.
+ * interval:
+ * duration in which one alarm occurs
  *
  * Math.random():
  * This function returns a random number  between 0.0 and 1.0
  * (e.g. 0.6435).
- *
- * remainingInterval:
- * This is a help variable which is a time interval minus
- * the delay in the beginning, so the remaining period.
+
 
  * BEHAVIOUR:
- * The functionality is basically provided in the constructor.
+ * The class provides four timer durations, which run from the start of Versuch 1.
+ * One alarm pops up at the end of a timer. They are saved in delay[0], delay[1],...
  *
- * delay[x] is set as beginning of interval plus delayToNext
- * Then the point of the alarm is set by adding Math.random()
- * multiplied with the the remaining time of the interval.
+ * The first alarm pops up 1m after start of Versuch 1 at the earliest,
+ * as the participant should first concentrate on the test task.
  *
- * We do not want that the last alarm pops up just before the end
- * of the experiment, so for the last interval Math.random()
- * is multiplied with slightly less than the remaining interval time.
+ * 7 min remaining duration for the experiment is split into 4 intervals
+ * with one alarm each.
+ * So one interval lasts 7 min/ 4 = 420.000 ms/ 4 = 105.000 ms.
+ *
+ * Intervals are (60.000,165.000],(165.000,270.000],(270.000,375.000],...
+ *
+ * In detail this is the beginning of an interval plus a delay (delayToNext)
+ * plus a duration for the exact point of the alarm.
+ *
+ * The exact point is is set by adding Math.random() * 0.8 * interval.
+ * The participant needs some time to react to the alarm, so an alarm
+ * does not pop up just before the beginning of the next interval,
+ * by multiplying with factor 0.8.
+ *
+ * E.g. for the second alarm in we have
+ * delay[1] = 60.000 + 2 * interval + (int)(Math.random() * 0.8 * interval;
+ *
  */
 
 public class AlarmProvider {
@@ -64,14 +71,13 @@ public class AlarmProvider {
 
         List<Integer> type_List = Arrays.asList(a1,a2,a3,a4);
 
-        int delayToNext = 15000;
         delay = new int[4];
-        int remainingInterval = 120000-delayToNext;
+        int startDelay = 60000;
+        int interval = 105000;
 
-        delay[0] = delayToNext + (int)(Math.random() * remainingInterval);
-        delay[1] = 120000 + delayToNext + (int)(Math.random() * remainingInterval);
-        delay[2] = 240000 + delayToNext + (int)(Math.random() * remainingInterval);
-        delay[3] = 320000 + delayToNext + (int)(Math.random() * (0.8 * remainingInterval));
+        for(int i = 0; i<4; i++){
+            delay[i] = startDelay + i * interval + (int)(Math.random() * 0.8 * interval);
+        }
 
         //delay for test case
         //delay[0] = 50000;
@@ -83,11 +89,11 @@ public class AlarmProvider {
         setAlarmType(type_List);
     }
 
-    protected int[] getAlarms(){
+    protected int[] getAlarmTime(){
         return alarm_type;
     }
 
-    protected int[] getDelays(){
+    protected int[] getDelay(){
         return delay;
     }
 

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Created by e.lessen on 16.11.2015.
  * Methods which use SQLiteOpenHelper dbHelper Object e.g. delete.
  * Methods which change values and work on values; e.g. use put ...
  * */

@@ -5,7 +5,11 @@ import android.os.Parcelable;
 import android.util.Log;
 
 /**
- * Created by e.lessen on 16.11.2015.
+ * Description of the class:
+ * user_log information class.
+ * This class keeps track of the participant's information.
+ * The ID is saved and also the interactions.
+ * An instance of this class is passed between the activities.
  */
 public class UserInputLog implements Parcelable{
 

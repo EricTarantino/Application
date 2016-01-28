@@ -24,8 +24,9 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 /**
- * Created by Eric van Lessen, eric.van@rwth-aachen.de, eric.vanlessen@live.de on 23.01.2016.
  * Description of the class:
+ * This class provides the functionality during the first part of the experiment.
+ * The
  */
 public class alarmActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -45,7 +46,7 @@ public class alarmActivity extends AppCompatActivity
     // variables for the alarm
     protected static final int CONTINUE_REQUEST_CODE = 10;
     private AlarmProvider alarm = new AlarmProvider();
-    private int [] type = alarm.getAlarms();
+    private int [] type = alarm.getAlarmTime();
     private boolean alarmOn;
 
     // connection to the database
@@ -80,6 +81,7 @@ public class alarmActivity extends AppCompatActivity
         this.alarmOn = alarmOn;
     }
 
+    //set the timers for the alarms
     private void setTimers() {
 
         TimerTask action = new TimerTask() {
@@ -90,7 +92,7 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker = new Timer();
-        caretaker.schedule(action, alarm.getDelays()[0]);
+        caretaker.schedule(action, alarm.getDelay()[0]);
 
         TimerTask action1 = new TimerTask() {
             public void run() {
@@ -100,7 +102,7 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker1 = new Timer();
-        caretaker1.schedule(action1, alarm.getDelays()[1]);
+        caretaker1.schedule(action1, alarm.getDelay()[1]);
 
         TimerTask action2 = new TimerTask() {
             public void run() {
@@ -110,7 +112,7 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker2 = new Timer();
-        caretaker2.schedule(action2, alarm.getDelays()[2]);
+        caretaker2.schedule(action2, alarm.getDelay()[2]);
 
 
         TimerTask action3 = new TimerTask() {
@@ -121,7 +123,7 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker3 = new Timer();
-        caretaker3.schedule(action3, alarm.getDelays()[3]);
+        caretaker3.schedule(action3, alarm.getDelay()[3]);
 
         TimerTask action4 = new TimerTask() {
             public void run() {
@@ -129,8 +131,9 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker4 = new Timer();
-        //caretaker4.schedule(action4, 640000);
-        caretaker4.schedule(action4, 90000);
+
+        /**The experiment ends after 8 min*/
+        caretaker4.schedule(action4, 48000);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////

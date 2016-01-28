@@ -11,7 +11,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 /**
- * Created by Eric on 16.11.2015.
+ * Description of the class
  */
 
 public class databaseHelper extends SQLiteOpenHelper {
