@@ -77,10 +77,10 @@ public class modification_select_2 extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////
 
     public void goToMonitorVersuch2(View view) {
-        Intent prozess1starten = new Intent(this, Prozess1starten.class);
+        Intent alarmActivity2 = new Intent(this, alarmActivity2.class);
         ui_Log.setModalitaet(ui_Log.MONITOR);
-        prozess1starten.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(prozess1starten);
+        alarmActivity2.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(alarmActivity2);
     }
 
     public void goToWatchVersuch(View view) {

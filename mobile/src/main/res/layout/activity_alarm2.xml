@@ -7,8 +7,148 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.eric.application.alarmActivity2">
+    tools:context="com.example.eric.application.alarmActivity2"
+    android:visibility="invisible">
 
 
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:gravity="center"
+        android:text="@string/string_button_Prozess1_starten"
+        android:id="@+id/button_Prozess1_starten"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:onClick="onClickButton_Prozess1_starten"
+        android:background="@drawable/buttonclearing"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:gravity="center"
+        android:text="@string/string_button_Prozess1_endet"
+        android:id="@+id/button_Prozess1_endet"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:onClick="onClickButton_Prozess1_endet"
+        android:background="@drawable/buttonalarm"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:gravity="center"
+        android:text="@string/string_button_Prozess2_starten"
+        android:id="@+id/button_Prozess2_starten"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:onClick="onClickButton_Prozess2_starten"
+        android:background="@drawable/buttonclearing"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:gravity="center"
+        android:text="@string/string_button_Prozess2_endet"
+        android:id="@+id/button_Prozess2_endet"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:onClick="onClickButton_Prozess2_endet"
+        android:background="@drawable/buttonclearing"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:gravity="center"
+        android:text="@string/string_button_Prozess3_starten"
+        android:id="@+id/button_Prozess3_starten"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:onClick="onClickButton_Prozess3_starten"
+        android:background="@drawable/buttonclearing"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:gravity="center"
+        android:text="@string/string_button_Prozess3_endet"
+        android:id="@+id/button_Prozess3_endet"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:onClick="onClickButton_Prozess3_endet"
+        android:background="@drawable/buttonclearing"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:gravity="center"
+        android:text="@string/string_button_Prozess4_starten"
+        android:id="@+id/button_Prozess4_starten"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:onClick="onClickButton_Prozess4_starten"
+        android:background="@drawable/buttonclearing"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:gravity="center"
+        android:text="@string/string_button_Prozess4_endet"
+        android:id="@+id/button_Prozess4_endet"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:onClick="onClickButton_Prozess4_endet"
+        android:background="@drawable/buttonclearing"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/string_button_Prozess_Status"
+        android:id="@+id/textView_alarm2Activity_Prozess_Status"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        android:textColor="#3F51B5" />
 
 </RelativeLayout>

@@ -26,8 +26,6 @@
         <activity android:name=".continueActivity" />
         <activity android:name=".modification_select_2" />
         <activity android:name=".alarmActivity2" />
-        <activity android:name=".Prozess1starten" />
-        <activity android:name=".Prozess1laeuft"></activity>
     </application>
 
 </manifest>
