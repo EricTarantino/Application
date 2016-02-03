@@ -36,6 +36,7 @@
     <string name="text_alarm_beheben">Alarm beheben:</string>
     <string name="text_kondition_2">Versuchsteil 2</string>
     <string name="string_button_versuch2">Prozess 1 starten</string>
-    <string name="string_text_versuch2">Empty</string>
+    <string name="string_button_prozess_1_starten">Prozess 1 starten</string>
+    <string name="string_button_prozess_1_laeuft">Prozess 1 läuft</string>
 </resources>
 

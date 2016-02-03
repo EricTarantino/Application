@@ -33,7 +33,7 @@
         android:layout_above="@+id/button_smartwatch_2"
         android:layout_alignLeft="@+id/button_smartwatch_2"
         android:layout_alignStart="@+id/button_smartwatch_2"
-        android:onClick="goToMonitorVersuch"
+        android:onClick="goToMonitorVersuch2"
         android:background="@drawable/buttonstandard" />
 
     <Button
