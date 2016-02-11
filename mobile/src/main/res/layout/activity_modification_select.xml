@@ -62,17 +62,15 @@
         />
 
     <Button
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Versuch 2"
-        android:id="@+id/button"
+        android:id="@+id/button2"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="@drawable/arrowright"
-        android:layout_below="@+id/button_datenbrille"
-        android:layout_toEndOf="@+id/button_monitor"
-        android:layout_marginLeft="330dp"
-        android:layout_marginTop="50dp"
-        android:onClick="goToVersuch2"/>
+        android:nestedScrollingEnabled="true"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

@@ -25,7 +25,7 @@
         android:background="@drawable/buttonclearing"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <Button
         android:layout_width="400dp"
@@ -138,17 +138,5 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/string_button_Prozess_Status"
-        android:id="@+id/textView_alarm2Activity_Prozess_Status"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:visibility="invisible"
-        android:textColor="#3F51B5" />
 
 </RelativeLayout>
