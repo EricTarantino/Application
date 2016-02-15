@@ -12,7 +12,8 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_box="bottom">
+        app:layout_box="bottom"
+        android:background="@drawable/background">
 
         <ImageView
             android:layout_width="154dp"

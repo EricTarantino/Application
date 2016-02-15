@@ -95,6 +95,7 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
 
             if (alarmType=="Off") {
                 alarmIcon.setVisibility(View.INVISIBLE);
+                appText.setVisibility(View.INVISIBLE);
             }
             if (alarmType=="On") {
                 alarmIcon.setVisibility(View.VISIBLE);
