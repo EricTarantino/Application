@@ -71,6 +71,7 @@
         android:layout_alignParentEnd="true"
         android:background="@drawable/arrowright"
         android:nestedScrollingEnabled="true"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:onClick="goToVersuch2"/>
 
 </RelativeLayout>

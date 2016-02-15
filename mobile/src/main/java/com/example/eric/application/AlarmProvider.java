@@ -1,5 +1,7 @@
 package com.example.eric.application;
 
+import android.util.Log;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -85,11 +87,14 @@ public class AlarmProvider {
         //delay[2] = 50000;
         //delay[3] = 75000;
 
+        Log.d("Alarm Provider", "D1 "+delay[0]+", D2 "+delay[1]+", D3 "+delay[2]+", D4 "+delay[3]);
+        Log.d("Alarm Provider", "A1 "+a1+", A2 "+a2+", A3 "+a3+", A4 "+a4);
+
         Collections.shuffle(type_List);
         setAlarmType(type_List);
     }
 
-    protected int[] getAlarmTime(){
+    protected int[] getAlarmType(){
         return alarm_type;
     }
 

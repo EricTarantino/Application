@@ -17,7 +17,7 @@ public class modification_select_2 extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////
 
     UserInputLog ui_Log;
-
+    private static final String MODSEL2 = "mod_sel_2";
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
     // activity methods, reaction on changes to the application                      //
@@ -33,7 +33,9 @@ public class modification_select_2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modification_select);
+        setContentView(R.layout.activity_modification_select_2);
+
+        Log.d(MODSEL2, "On Create");
 
         //invisibleImpossibleCondition();
         //Get the parcelable object to move around data
@@ -84,10 +86,10 @@ public class modification_select_2 extends AppCompatActivity {
     }
 
     public void goToWatchVersuch(View view) {
-        Intent alarmActivity = new Intent(this, alarmActivity.class);
+        Intent alarmActivity2 = new Intent(this, alarmActivity2.class);
         ui_Log.setModalitaet(ui_Log.WATCH);
-        alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(alarmActivity);
+        alarmActivity2.putExtra(".hmi.UserInputLog", ui_Log);
+        startActivity(alarmActivity2);
     }
 
     public void showSettings() {

@@ -36,14 +36,7 @@
     <string name="text_alarm_beheben">Alarm beheben:</string>
     <string name="text_kondition_2">Versuchsteil 2</string>
     <string name="string_button_versuch2">Prozess 1 starten</string>
-    <string name="string_button_Prozess1_starten">Prozess 1 starten</string>
-    <string name="string_button_Prozess1_endet">Prozess 1 endet</string>
-    <string name="string_button_Prozess2_starten">Prozess 2 starten</string>
-    <string name="string_button_Prozess2_endet">Prozess 2 endet</string>
-    <string name="string_button_Prozess3_starten">Prozess 3 starten</string>
-    <string name="string_button_Prozess3_endet">Prozess 3 endet</string>
-    <string name="string_button_Prozess4_starten">Prozess 4 starten</string>
-    <string name="string_button_Prozess4_endet">Prozess 4 endet</string>
-    <string name="string_button_Prozess_Status">Prozess 1 läuft</string>
+    <string name="string_button_Prozess_läuft">Prozess 1 läuft &lt;br /&gt; &lt;br /&gt; "00:00:00"</string>
+    <string name="string_button_Prozess_starten">Prozess 1 starten</string>
 </resources>
 

@@ -46,7 +46,8 @@ public class alarmActivity extends AppCompatActivity
     // variables for the alarm
     protected static final int CONTINUE_REQUEST_CODE = 10;
     private AlarmProvider alarm = new AlarmProvider();
-    private int [] type = alarm.getAlarmTime();
+    private int [] type = alarm.getAlarmType();
+    private int [] delay = alarm.getDelay();
     private boolean alarmOn;
 
     // connection to the database
@@ -66,6 +67,113 @@ public class alarmActivity extends AppCompatActivity
 
     //date for log of popup and click time
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'um' HH:mm:ss:SS");
+
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                                                                               //
+    // handler on behaviour of functions                                             //
+    //                                                                               //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //Handler for the Timer, action on Alarm
+    Handler handlerAlarmOn = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            //TextView textView = (TextView) findViewById(R.id.textView2);
+            //String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+            // textView is the TextView view that should display it
+            //textView.setText( textView.getText() + currentDateTimeString +" "+ msg.arg1 + "\n");
+            Button button = (Button) findViewById(R.id.id_button_alarm);
+            button.setBackgroundColor(0xffff0000);
+
+            switch(msg.arg1){
+                case 0:{
+                    ui_Log.setAlarmtyp(ALARM_A);//textView.setText(textView.getText() + " " + get_alarmType() + "\n");
+                }break;
+
+                case 1: {
+                    ui_Log.setAlarmtyp(ALARM_B);
+                    //textView.setText(textView.getText() + " " + get_alarmType() + "\n");
+                }break;
+
+                case 2: {
+                    ui_Log.setAlarmtyp(ALARM_C);
+                    //textView.setText(textView.getText() + " " + get_alarmType() + "\n");
+                }break;
+                case 3: {
+                    ui_Log.setAlarmtyp(ALARM_D);
+                    //textView.setText(textView.getText() + " " + get_alarmType() + "\n");
+                }break;
+                default: break;
+            }
+
+
+            sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
+
+            sendMessageToWear("On");
+
+            button.setText("Alarm " + ui_Log.getAlarmtyp());
+            ui_Log.setPopuptime(sdf.format(new Date()));
+            setAlarmOn(true);
+            button.setVisibility(View.VISIBLE);
+        }
+    };
+
+    //Handler to get supervisor after this modification is dealt with
+    Handler handlerContinue = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            goToContinueActivity();
+        }
+    };
+
+    //Handler gives the user feedback about the alarm correction for 3 sec
+    Handler handlerCorrectionFadeIn = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            TextView tv = (TextView) findViewById(R.id.id_fehler_behoben);
+            if(getAlarmOn()){
+                tv.setText(R.string.fehler_nicht_behoben);
+            }else {
+                tv.setText(R.string.fehler_behoben);
+                sendMessageToWear("Off");
+            }
+            tv.setVisibility(View.VISIBLE);
+            Button button = (Button) findViewById(R.id.id_button_alarm);
+            Button button_a = (Button) findViewById(R.id.id_button_alarm_a_beheben);
+            Button button_b = (Button) findViewById(R.id.id_button_alarm_b_beheben);
+            Button button_c = (Button) findViewById(R.id.id_button_alarm_c_beheben);
+            Button button_d = (Button) findViewById(R.id.id_button_alarm_d_beheben);
+            button.setVisibility(View.INVISIBLE);
+            button_a.setVisibility(View.INVISIBLE);
+            button_b.setVisibility(View.INVISIBLE);
+            button_c.setVisibility(View.INVISIBLE);
+            button_d.setVisibility(View.INVISIBLE);
+        }
+    };
+
+    //Handler fades out the feedback about the alarm correction
+    Handler handlerCorrectionFadeOut = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+
+            TextView tv = (TextView) findViewById(R.id.id_fehler_behoben);
+            tv.setVisibility(View.INVISIBLE);
+            Button button_a = (Button) findViewById(R.id.id_button_alarm_a_beheben);
+            Button button_b = (Button) findViewById(R.id.id_button_alarm_b_beheben);
+            Button button_c = (Button) findViewById(R.id.id_button_alarm_c_beheben);
+            Button button_d = (Button) findViewById(R.id.id_button_alarm_d_beheben);
+            button_a.setVisibility(View.VISIBLE);
+            button_b.setVisibility(View.VISIBLE);
+            button_c.setVisibility(View.VISIBLE);
+            button_d.setVisibility(View.VISIBLE);
+
+            if (getAlarmOn()){
+                Button button = (Button) findViewById(R.id.id_button_alarm);
+                button.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -92,7 +200,7 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker = new Timer();
-        caretaker.schedule(action, alarm.getDelay()[0]);
+        caretaker.schedule(action, delay[0]);
 
         TimerTask action1 = new TimerTask() {
             public void run() {
@@ -102,7 +210,7 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker1 = new Timer();
-        caretaker1.schedule(action1, alarm.getDelay()[1]);
+        caretaker1.schedule(action1, delay[1]);
 
         TimerTask action2 = new TimerTask() {
             public void run() {
@@ -112,7 +220,7 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker2 = new Timer();
-        caretaker2.schedule(action2, alarm.getDelay()[2]);
+        caretaker2.schedule(action2, delay[2]);
 
 
         TimerTask action3 = new TimerTask() {
@@ -123,7 +231,7 @@ public class alarmActivity extends AppCompatActivity
             }
         };
         caretaker3 = new Timer();
-        caretaker3.schedule(action3, alarm.getDelay()[3]);
+        caretaker3.schedule(action3, delay[3]);
 
         TimerTask action4 = new TimerTask() {
             public void run() {
@@ -133,7 +241,7 @@ public class alarmActivity extends AppCompatActivity
         caretaker4 = new Timer();
 
         /**The experiment ends after 8 min*/
-        caretaker4.schedule(action4, 48000);
+        caretaker4.schedule(action4, 480000);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -406,112 +514,5 @@ public class alarmActivity extends AppCompatActivity
         settings.putExtra(".hmi.UserInputLog", ui_Log);
         startActivity(settings);
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////
-    //                                                                               //
-    // handler on behaviour of functions                                             //
-    //                                                                               //
-    ///////////////////////////////////////////////////////////////////////////////////
-
-    //Handler for the Timer, action on Alarm
-    Handler handlerAlarmOn = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            //TextView textView = (TextView) findViewById(R.id.textView2);
-            //String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-            // textView is the TextView view that should display it
-            //textView.setText( textView.getText() + currentDateTimeString +" "+ msg.arg1 + "\n");
-            Button button = (Button) findViewById(R.id.id_button_alarm);
-            button.setBackgroundColor(0xffff0000);
-
-            switch(msg.arg1){
-                case 0:{
-                    ui_Log.setAlarmtyp(ALARM_A);//textView.setText(textView.getText() + " " + get_alarmType() + "\n");
-                }break;
-
-                case 1: {
-                    ui_Log.setAlarmtyp(ALARM_B);
-                    //textView.setText(textView.getText() + " " + get_alarmType() + "\n");
-                }break;
-
-                case 2: {
-                    ui_Log.setAlarmtyp(ALARM_C);
-                    //textView.setText(textView.getText() + " " + get_alarmType() + "\n");
-                }break;
-                case 3: {
-                    ui_Log.setAlarmtyp(ALARM_D);
-                    //textView.setText(textView.getText() + " " + get_alarmType() + "\n");
-                }break;
-                default: break;
-            }
-
-
-            sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
-            sendMessageToWear("On");
-
-            sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
-
-            button.setText("Alarm " + ui_Log.getAlarmtyp());
-            ui_Log.setPopuptime(sdf.format(new Date()));
-            setAlarmOn(true);
-            button.setVisibility(View.VISIBLE);
-        }
-    };
-
-    //Handler to get supervisor after this modification is dealt with
-    Handler handlerContinue = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            goToContinueActivity();
-        }
-    };
-
-    //Handler gives the user feedback about the alarm correction for 3 sec
-    Handler handlerCorrectionFadeIn = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            TextView tv = (TextView) findViewById(R.id.id_fehler_behoben);
-            if(getAlarmOn()){
-                tv.setText(R.string.fehler_nicht_behoben);
-            }else {
-                tv.setText(R.string.fehler_behoben);
-                sendMessageToWear("Off");
-            }
-            tv.setVisibility(View.VISIBLE);
-            Button button = (Button) findViewById(R.id.id_button_alarm);
-            Button button_a = (Button) findViewById(R.id.id_button_alarm_a_beheben);
-            Button button_b = (Button) findViewById(R.id.id_button_alarm_b_beheben);
-            Button button_c = (Button) findViewById(R.id.id_button_alarm_c_beheben);
-            Button button_d = (Button) findViewById(R.id.id_button_alarm_d_beheben);
-            button.setVisibility(View.INVISIBLE);
-            button_a.setVisibility(View.INVISIBLE);
-            button_b.setVisibility(View.INVISIBLE);
-            button_c.setVisibility(View.INVISIBLE);
-            button_d.setVisibility(View.INVISIBLE);
-        }
-    };
-
-    //Handler fades out the feedback about the alarm correction
-    Handler handlerCorrectionFadeOut = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-
-            TextView tv = (TextView) findViewById(R.id.id_fehler_behoben);
-            tv.setVisibility(View.INVISIBLE);
-            Button button_a = (Button) findViewById(R.id.id_button_alarm_a_beheben);
-            Button button_b = (Button) findViewById(R.id.id_button_alarm_b_beheben);
-            Button button_c = (Button) findViewById(R.id.id_button_alarm_c_beheben);
-            Button button_d = (Button) findViewById(R.id.id_button_alarm_d_beheben);
-            button_a.setVisibility(View.VISIBLE);
-            button_b.setVisibility(View.VISIBLE);
-            button_c.setVisibility(View.VISIBLE);
-            button_d.setVisibility(View.VISIBLE);
-
-            if (getAlarmOn()){
-                Button button = (Button) findViewById(R.id.id_button_alarm);
-                button.setVisibility(View.VISIBLE);
-            }
-        }
-    };
 }
 
