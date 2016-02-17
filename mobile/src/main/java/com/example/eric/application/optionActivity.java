@@ -127,7 +127,8 @@ public class optionActivity extends AppCompatActivity{
     public void exportDatabase(Context context) {
 
         //Context context = getApplicationContext();
-        String exportResult = dbHelper.exportDatabase(context);
+        String exportResult = dbHelper.exportDatabase(context, databaseHelper.TABLENAME);
+        exportResult = exportResult +"\n"+ dbHelper.exportDatabase(context, databaseHelper.TABLENAME_V2);
 
         //set duration of toast
         int duration = Toast.LENGTH_SHORT;
@@ -138,7 +139,8 @@ public class optionActivity extends AppCompatActivity{
     public void emptyDatabase(Context context) {
 
         EditText id_shower = (EditText) findViewById(R.id.editText_options_id_show);
-        String emptyResult = dbHelper.emptyDatabase(id_shower.getText().toString());
+        String emptyResult = dbHelper.emptyDatabase(id_shower.getText().toString(), databaseHelper.TABLENAME);
+        emptyResult = emptyResult + "\n" + dbHelper.emptyDatabase(id_shower.getText().toString(), databaseHelper.TABLENAME_V2);
 
         //set duration of toast
         int duration = Toast.LENGTH_SHORT;

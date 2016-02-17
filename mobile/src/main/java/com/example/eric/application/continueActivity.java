@@ -20,6 +20,7 @@ public class continueActivity extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////
 
     UserInputLog ui_Log;
+    UserInputLog2 ui_Log2;
 
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -32,6 +33,7 @@ public class continueActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
+        ui_Log2 = b.getParcelable(".hmi.UserInputLog2");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_continue);
@@ -66,6 +68,7 @@ public class continueActivity extends AppCompatActivity {
     public void button_continue_ClickHandler(View view) {
         Intent modificationSelect = new Intent(this, modification_select.class);
         modificationSelect.putExtra(".hmi.UserInputLog", ui_Log);
+        modificationSelect.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(modificationSelect);
     }
 }

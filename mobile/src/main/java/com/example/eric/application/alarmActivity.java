@@ -31,6 +31,7 @@ import java.util.TimerTask;
 public class alarmActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    //TODO: On Options Show settings loeschen, unnoetig aus Alarm Activity
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
     // class variables                                                               //
@@ -55,6 +56,7 @@ public class alarmActivity extends AppCompatActivity
 
     // log data which is passed between activities
     UserInputLog ui_Log;
+    UserInputLog2 ui_Log2;
 
     //helper variables to
     private final String ALARM_A = "A";
@@ -106,7 +108,6 @@ public class alarmActivity extends AppCompatActivity
                 }break;
                 default: break;
             }
-
 
             sendMessageToWear("Alarm " + ui_Log.getAlarmtyp());
 
@@ -256,13 +257,13 @@ public class alarmActivity extends AppCompatActivity
         //set cancel dialog behaviour
         new AlertDialog.Builder(this)
                 .setTitle("Abbrechen")
-                .setMessage("Die Eingaben des Versuchsteils wurden nicht gespeichert. Sind Sie sicher, dass Sie abbrechen möchten?")
+                .setMessage("Die Eingaben dieses Teils des Versuchsteils 1 wurden nicht gespeichert. Sind Sie sicher, dass Sie abbrechen möchten?")
 
                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with delete
                         cancelTimers();
-                        dataSource.deleteData(ui_Log.getUser_id());
+                        dataSource.deleteData(ui_Log.getUser_id(), ui_Log.getModalitaet(), databaseHelper.TABLENAME);
                         dataSource.close();
                         //do not use onBackPressed, but use finish()
                         alarmActivity.this.finish();
@@ -288,7 +289,7 @@ public class alarmActivity extends AppCompatActivity
         //Initialize mGoolgeAPIClient
         mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
-                .addConnectionCallbacks(this )
+                .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
 
@@ -298,9 +299,9 @@ public class alarmActivity extends AppCompatActivity
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
+        ui_Log2 = b.getParcelable(".hmi.UserInputLog2");
 
         //this is the first part of the lab
-        ui_Log.setVersuch(1);
         setTimers();
         setAlarmOn(false);
 
@@ -465,6 +466,7 @@ public class alarmActivity extends AppCompatActivity
         dataSource.close();
         Intent continueIntent = new Intent(this, continueActivity.class);
         continueIntent.putExtra(".hmi.UserInputLog",  ui_Log);
+        continueIntent.putExtra(".hmi.UserInputLog2",  ui_Log2);
         startActivityForResult(continueIntent, CONTINUE_REQUEST_CODE);
     }
 
@@ -512,6 +514,7 @@ public class alarmActivity extends AppCompatActivity
     private void showSettings() {
         Intent settings = new Intent(this, optionActivity.class);
         settings.putExtra(".hmi.UserInputLog", ui_Log);
+        settings.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(settings);
     }
 }

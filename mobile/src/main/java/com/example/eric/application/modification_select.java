@@ -17,6 +17,7 @@ public class modification_select extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////
 
     UserInputLog ui_Log;
+    UserInputLog2 ui_Log2;
 
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -39,6 +40,7 @@ public class modification_select extends AppCompatActivity {
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
+        ui_Log2 = b.getParcelable(".hmi.UserInputLog2");
     }
 
     @Override
@@ -80,6 +82,7 @@ public class modification_select extends AppCompatActivity {
         Intent alarmActivity = new Intent(this, alarmActivity.class);
         ui_Log.setModalitaet(ui_Log.MONITOR);
         alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
+        alarmActivity.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(alarmActivity);
     }
 
@@ -87,20 +90,22 @@ public class modification_select extends AppCompatActivity {
         Intent alarmActivity = new Intent(this, alarmActivity.class);
         ui_Log.setModalitaet(ui_Log.WATCH);
         alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
+        alarmActivity.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(alarmActivity);
     }
 
     public void showSettings() {
         Intent settings = new Intent(this, optionActivity.class);
         settings.putExtra(".hmi.UserInputLog", ui_Log);
+        settings.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(settings);
     }
 
     public void goToVersuch2(View view){
-        Intent versuch2 = new Intent(this, modification_select_2.class);
-        ui_Log.setModalitaet(ui_Log.WATCH);
-        versuch2.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(versuch2);
+        Intent modification_select_2 = new Intent(this, modification_select_2.class);
+        modification_select_2.putExtra(".hmi.UserInputLog", ui_Log);
+        modification_select_2.putExtra(".hmi.UserInputLog2", ui_Log2);
+        startActivity(modification_select_2);
     }
 }
 

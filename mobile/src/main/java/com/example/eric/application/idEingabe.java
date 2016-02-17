@@ -17,8 +17,10 @@ public class idEingabe extends AppCompatActivity {
     //                                                                               //
     ///////////////////////////////////////////////////////////////////////////////////
 
-    //databaseSource dataSource;
+
+    //user data is saved here
     UserInputLog ui_Log = new UserInputLog();
+    UserInputLog2 ui_Log2 = new UserInputLog2();
 
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -78,10 +80,18 @@ public class idEingabe extends AppCompatActivity {
         //Record user ID
         try{
             ui_Log.setUser_id((long) Integer.parseInt(userID.getText().toString()));
+            ui_Log2.setUser_id((long) Integer.parseInt(userID.getText().toString()));
+
+            //could be set in the class, done this way for further development options
+            ui_Log.setVersuch(1);
+            ui_Log2.setVersuch(2);
+
+
             if(isNewID(ui_Log.getUser_id())){
                 //parcelable data
                 Intent modificationSelect = new Intent(this, modification_select.class);
                 modificationSelect.putExtra(".hmi.UserInputLog",  ui_Log);
+                modificationSelect.putExtra(".hmi.UserInputLog2",  ui_Log2);
                 startActivity(modificationSelect);
             }
         }catch(Exception e) {
@@ -100,6 +110,7 @@ public class idEingabe extends AppCompatActivity {
         ClickOnIDButton_Helper();
         Intent settings = new Intent(this, optionActivity.class);
         settings.putExtra(".hmi.UserInputLog",  ui_Log);
+        settings.putExtra(".hmi.UserInputLog2",  ui_Log2);
         startActivity(settings);
     }
 }

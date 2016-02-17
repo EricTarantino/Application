@@ -17,6 +17,8 @@ public class modification_select_2 extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////
 
     UserInputLog ui_Log;
+    UserInputLog2 ui_Log2;
+
     private static final String MODSEL2 = "mod_sel_2";
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -41,6 +43,7 @@ public class modification_select_2 extends AppCompatActivity {
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
+        ui_Log2 = b.getParcelable(".hmi.UserInputLog2");
     }
 
     @Override
@@ -80,28 +83,31 @@ public class modification_select_2 extends AppCompatActivity {
 
     public void goToMonitorVersuch2(View view) {
         Intent alarmActivity2 = new Intent(this, alarmActivity2.class);
-        ui_Log.setModalitaet(ui_Log.MONITOR);
+        ui_Log2.setModalitaet(ui_Log2.MONITOR);
         alarmActivity2.putExtra(".hmi.UserInputLog", ui_Log);
+        alarmActivity2.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(alarmActivity2);
     }
 
     public void goToWatchVersuch(View view) {
         Intent alarmActivity2 = new Intent(this, alarmActivity2.class);
-        ui_Log.setModalitaet(ui_Log.WATCH);
+        ui_Log2.setModalitaet(ui_Log2.WATCH);
         alarmActivity2.putExtra(".hmi.UserInputLog", ui_Log);
+        alarmActivity2.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(alarmActivity2);
     }
 
     public void showSettings() {
         Intent settings = new Intent(this, optionActivity.class);
         settings.putExtra(".hmi.UserInputLog", ui_Log);
+        settings.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(settings);
     }
 
     public void goToVersuch1(View view){
-        Intent versuch = new Intent(this, modification_select.class);
-        ui_Log.setModalitaet(ui_Log.WATCH);
-        versuch.putExtra(".hmi.UserInputLog", ui_Log);
-        startActivity(versuch);
+        Intent modification_select = new Intent(this, modification_select.class);
+        modification_select.putExtra(".hmi.UserInputLog", ui_Log);
+        modification_select.putExtra(".hmi.UserInputLog2", ui_Log2);
+        startActivity(modification_select);
     }
 }
