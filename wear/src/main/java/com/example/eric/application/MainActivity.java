@@ -89,19 +89,43 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
     public void onMessageReceived( final MessageEvent messageEvent ) {
         Log.d(MAIN_WEAR, "message received");
         if(messageEvent.getPath().equals(WEAR_PATH)) {
-            String alarmType = new String(messageEvent.getData());
+            String message_event_getData = new String(messageEvent.getData());
             TextView appText = (TextView) findViewById(R.id.text_alarm_wear);
-            ImageView alarmIcon = (ImageView) findViewById(R.id.imageViewAlarm);
+            ImageView image;
 
-            if (alarmType=="Off") {
-                alarmIcon.setVisibility(View.INVISIBLE);
-                appText.setVisibility(View.INVISIBLE);
-            }
-            if (alarmType=="On") {
-                alarmIcon.setVisibility(View.VISIBLE);
-                appText.setVisibility(View.VISIBLE);
-            } else {
-                appText.setText(alarmType);
+            switch (message_event_getData)
+            {
+                case "Off":
+                    image = (ImageView) findViewById(R.id.imageViewAlarm);
+                    image.setVisibility(View.INVISIBLE);
+                    appText.setVisibility(View.INVISIBLE);
+                    break;
+                case "On":
+                    image = (ImageView) findViewById(R.id.imageViewAlarm);
+                    image.setVisibility(View.VISIBLE);
+                    appText.setVisibility(View.VISIBLE);
+                    break;
+                case "PROCESS_NEW":
+                    image = (ImageView) findViewById(R.id.imageViewNewProcess);
+                    image.setVisibility(View.VISIBLE);
+                    appText.setVisibility(View.VISIBLE);
+                    break;
+                case "PROCESS_CRITICAL":
+                    image = (ImageView) findViewById(R.id.imageViewAlarm);
+                    image.setVisibility(View.VISIBLE);
+                    appText.setVisibility(View.VISIBLE);
+                    break;
+                case "PROCESS_CONFIRMED":
+                    image = (ImageView) findViewById(R.id.imageViewNewProcess);
+                    image.setVisibility(View.INVISIBLE);
+                    appText.setVisibility(View.INVISIBLE);
+                    break;
+                case "PROCESS_ENDED":
+                    image = (ImageView) findViewById(R.id.imageViewAlarm);
+                    image.setVisibility(View.INVISIBLE);
+                    appText.setVisibility(View.INVISIBLE);
+                    break;
+                default: appText.setText(message_event_getData);
             }
         }
     }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -284,4 +286,22 @@
         android:layout_row="17"
         android:layout_column="11"
         android:onClick="OnClickConfirm3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Passwort:"
+        android:id="@+id/textView"
+        android:layout_row="18"
+        android:layout_column="5" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText_passwort"
+        android:layout_row="18"
+        android:layout_column="7" />
 </GridLayout>

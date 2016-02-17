@@ -9,7 +9,8 @@ import java.util.Random;
  * Description of the class:
  *
  * VARIABLES:
- * private int [] processes;
+ * private double [] processes holds the four processes and processes[4]
+ * holds the delay until the first process starts
  *
  * interval:
  * duration in which one alarm occurs
@@ -29,11 +30,22 @@ public class ProzessProvider {
 
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
-    // class variables                                                               //
+    // class variables and parameters                                                //
     //                                                                               //
     ///////////////////////////////////////////////////////////////////////////////////
 
-    private int [] processes;
+    private double [] processes;
+
+    /**
+    delay and minProcessLength can be modified here
+     */
+
+    //1min delay
+    private final double delay= 60000;
+
+    // all the processes sum up to 420.000 ms which (seven minutes)
+    // the shortest process has length 0.143 * 420000 ms, about 1 minute
+    private final double minProcessLength = 0.143;
 
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -54,32 +66,65 @@ public class ProzessProvider {
         a3 = Math.random();
         a4 = Math.random();
 
-        double prozesses[] = {a1, a2, a3, a4};
+
+        processes = new double[5];
+        processes[0]=a1;
+        processes[1]=a2;
+        processes[2]=a3;
+        processes[3]=a4;
+
+        //normalize
+        processes = normalize(processes);
 
         //smooth random data
-        double max = Math.max( prozesses[0] , Math.max( prozesses[1] , Math.max( prozesses[2] , prozesses[3] )));
-        double min = Math.min( prozesses[0] , Math.min( prozesses[1] , Math.min( prozesses[2] , prozesses[3] )));
+        while( Math.min( processes[0] , Math.min( processes[1] ,
+                Math.min( processes[2] , processes[3] ))) < minProcessLength ) {
 
-        while( max - min >= 0.5 ){
-            for(int i = 0; i<= 4; i++){
-                if(prozesses[i]==max)
-                    prozesses[i]-=0.05;
-            }
-            for(int i = 0; i<4; i++){
-                if(prozesses[i]==min)
-                    prozesses[i]+=0.05;
-            }
+            //add 0.025 to min duration, subtract 0.025 from max duration
+            processes = smooth(processes);
+
+            //normalize again
+            processes = normalize(processes);
         }
 
-        //normalize so that sum ai = 1
-        double sumProzesses = prozesses[1] + prozesses[2] + prozesses[3] + prozesses[4];
+        //stretch durations to 7 minutes alltogether
         for(int i = 0; i<4; i++){
-            prozesses[i] = prozesses[i] / sumProzesses;
+            processes[i] *= 480000 - delay;
         }
 
+        processes[4]=delay;
     }
 
     protected int[] getProcesses(){
+        int[] _processes = new int[5];
+        for(int i = 1; i<5 ;i++)
+            _processes[i] = (int) processes[i];
+        return _processes;
+    }
+
+    //normalize the process duration
+    private double[] normalize(double[] processes){
+        for(int i = 0; i<4; i++){
+            processes[i] = processes[i] /
+                    (processes[1] + processes[2] + processes[3] + processes[4]);
+        }
+        return processes;
+    }
+
+    //smooth the process duration
+    private double[] smooth(double[] processes){
+        double max = Math.max(processes[0], Math.max(processes[1] ,
+                Math.max(processes[2], processes[3])));
+        double min = Math.min(processes[0], Math.min(processes[1],
+                Math.min(processes[2] , processes[3] )));
+        for(int i = 0; i<= 4; i++){
+            if(processes[i]==max)
+                processes[i]-=0.05;
+        }
+        for(int i = 0; i<4; i++){
+            if(processes[i]==min)
+                processes[i]+=0.05;
+        }
         return processes;
     }
 }

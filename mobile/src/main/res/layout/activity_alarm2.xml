@@ -40,4 +40,16 @@
         android:layout_centerHorizontal="true"
         android:visibility="invisible"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textView_TimerAnzeige"
+        android:layout_alignBottom="@+id/button_Prozess_starten"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:textSize="30sp"
+        android:textColor="#000" />
+
 </RelativeLayout>

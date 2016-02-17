@@ -79,19 +79,22 @@ public class modification_select extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////
 
     public void goToMonitorVersuch(View view) {
-        Intent alarmActivity = new Intent(this, alarmActivity.class);
         ui_Log.setModalitaet(ui_Log.MONITOR);
-        alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
-        alarmActivity.putExtra(".hmi.UserInputLog2", ui_Log2);
-        startActivity(alarmActivity);
+        Intent confirmationToStart = new Intent(this, confirmationToStart.class);
+        confirmationToStart.putExtra(".hmi.UserInputLog", ui_Log);
+        confirmationToStart.putExtra(".hmi.UserInputLog2", ui_Log2);
+        confirmationToStart.putExtra("caller", "Teil1");
+        startActivity(confirmationToStart);
+
     }
 
     public void goToWatchVersuch(View view) {
-        Intent alarmActivity = new Intent(this, alarmActivity.class);
         ui_Log.setModalitaet(ui_Log.WATCH);
-        alarmActivity.putExtra(".hmi.UserInputLog", ui_Log);
-        alarmActivity.putExtra(".hmi.UserInputLog2", ui_Log2);
-        startActivity(alarmActivity);
+        Intent confirmationToStart = new Intent(this, confirmationToStart.class);
+        confirmationToStart.putExtra(".hmi.UserInputLog", ui_Log);
+        confirmationToStart.putExtra(".hmi.UserInputLog2", ui_Log2);
+        confirmationToStart.putExtra("caller", "Teil1");
+        startActivity(confirmationToStart);
     }
 
     public void showSettings() {

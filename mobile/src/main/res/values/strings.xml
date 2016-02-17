@@ -38,5 +38,7 @@
     <string name="string_button_versuch2">Prozess 1 starten</string>
     <string name="string_button_Prozess_läuft">Prozess 1 läuft &lt;br /&gt; &lt;br /&gt; "00:00:00"</string>
     <string name="string_button_Prozess_starten">Prozess 1 starten</string>
+    <string name="text_textView_confirmToStart">\"\"</string>
+    <string name="string_button_confirmToStart">Bestätigen</string>
 </resources>
 

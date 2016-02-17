@@ -35,7 +35,9 @@ public class optionActivity extends AppCompatActivity{
     databaseHelper dbHelper;
     UserInputLog ui_Log;
     String strID;
-    //String LOG = "optionActivity";
+
+    //TODO: Passwort festlegen
+    String PASSWORT = "IAW12345";
 
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -59,36 +61,37 @@ public class optionActivity extends AppCompatActivity{
     }
 
     public void OnClickConfirm1(View view) {
+
     }
 
     public void OnClickConfirm2(View view) {
-        //dataSource.deleteData(getEditTextID(), 1, ui_Log.WATCH);
+
     }
 
     public void OnClickConfirm3(View view) {
+
     }
 
     public void OnClickDatabase(View view) {
-        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
-        //button.setBackgroundColor(Color.BLUE);
+
     }
 
     public void OnClickEmpty(View view) {
-        emptyDatabase(this);
+        if(askForPasswort())
+            emptyDatabase(this);
     }
 
     public void OnClickExport(View view) {
-        exportDatabase(this);
+        if(askForPasswort())
+            exportDatabase(this);
     }
 
     public void OnClickGlasses(View view) {
-        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
-        //button.setBackgroundColor(Color.BLUE);
+
     }
 
     public void OnClickHMI(View view) {
-        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
-        //button.setBackgroundColor(Color.BLUE);
+
     }
 
     //TODO: Nice to have, function as parameter to confirm the delete, abstract or interface
@@ -101,8 +104,7 @@ public class optionActivity extends AppCompatActivity{
     }
 
     public void OnClickWatch(View view) {
-        //Button button = (Button) findViewById(R.id.button_id_Options_Database);
-        //button.setBackgroundColor(Color.BLUE);
+
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -131,7 +133,7 @@ public class optionActivity extends AppCompatActivity{
         exportResult = exportResult +"\n"+ dbHelper.exportDatabase(context, databaseHelper.TABLENAME_V2);
 
         //set duration of toast
-        int duration = Toast.LENGTH_SHORT;
+        int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, exportResult, duration);
         toast.show();
     }
@@ -143,8 +145,19 @@ public class optionActivity extends AppCompatActivity{
         emptyResult = emptyResult + "\n" + dbHelper.emptyDatabase(id_shower.getText().toString(), databaseHelper.TABLENAME_V2);
 
         //set duration of toast
-        int duration = Toast.LENGTH_SHORT;
+        int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, emptyResult, duration);
         toast.show();
+    }
+
+    private boolean askForPasswort(){
+        EditText editTextPasswort = (EditText) findViewById(R.id.editText_passwort);
+        if(editTextPasswort.getText().toString() == PASSWORT)
+            return true;
+
+        //set duration of toast
+        Toast toast = Toast.makeText(this, "Falsches Passwort.", Toast.LENGTH_LONG);
+        toast.show();
+        return false;
     }
 }

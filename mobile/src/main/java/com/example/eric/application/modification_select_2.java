@@ -82,11 +82,12 @@ public class modification_select_2 extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////
 
     public void goToMonitorVersuch2(View view) {
-        Intent alarmActivity2 = new Intent(this, alarmActivity2.class);
         ui_Log2.setModalitaet(ui_Log2.MONITOR);
-        alarmActivity2.putExtra(".hmi.UserInputLog", ui_Log);
-        alarmActivity2.putExtra(".hmi.UserInputLog2", ui_Log2);
-        startActivity(alarmActivity2);
+        Intent confirmationToStart = new Intent(this, confirmationToStart.class);
+        confirmationToStart.putExtra(".hmi.UserInputLog", ui_Log);
+        confirmationToStart.putExtra(".hmi.UserInputLog2", ui_Log2);
+        confirmationToStart.putExtra("caller", "Teil2");
+        startActivity(confirmationToStart);
     }
 
     public void goToWatchVersuch(View view) {
@@ -94,6 +95,7 @@ public class modification_select_2 extends AppCompatActivity {
         ui_Log2.setModalitaet(ui_Log2.WATCH);
         alarmActivity2.putExtra(".hmi.UserInputLog", ui_Log);
         alarmActivity2.putExtra(".hmi.UserInputLog2", ui_Log2);
+        alarmActivity2.putExtra("caller", "Teil2");
         startActivity(alarmActivity2);
     }
 

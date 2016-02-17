@@ -31,7 +31,6 @@ import java.util.TimerTask;
 public class alarmActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    //TODO: On Options Show settings loeschen, unnoetig aus Alarm Activity
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
     // class variables                                                               //
@@ -517,5 +516,7 @@ public class alarmActivity extends AppCompatActivity
         settings.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(settings);
     }
+
+
 }
 
