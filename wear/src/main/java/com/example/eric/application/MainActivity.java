@@ -25,7 +25,6 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
     ///////////////////////////////////////////////////////////////////////////////////
 
     //provides the functionality to connect to the watch
-    private static final String WEAR_MESSAGE_PATH = "/message";
     private static final String DEVICE_MAIN = "DeviceMain";
     private static final String MAIN_WEAR = "Wearable Main";
     private static final String WEAR_PATH = "/from_device";
