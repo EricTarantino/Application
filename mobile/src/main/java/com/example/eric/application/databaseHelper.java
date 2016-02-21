@@ -50,7 +50,7 @@ public class databaseHelper extends SQLiteOpenHelper {
 
     // Column names Versuch 1
     protected static final String ALARMTYP = "alarmtype";
-    protected static final String CLICKEDTYP = "correctiontype";
+    protected static final String CLICKEDTYP = "clickedtype";
     protected static final String POPUPTIME = "popup_time";
     protected static final String CLICKTIME = "click_time";
     protected static final String CLEARING = "clearing";

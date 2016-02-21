@@ -94,12 +94,13 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
 
             switch (message_event_getData)
             {
-                case "Off":
+                //TODO Set background instead
+                case "ALARM_ON":
                     image = (ImageView) findViewById(R.id.imageViewAlarm);
                     image.setVisibility(View.INVISIBLE);
                     appText.setVisibility(View.INVISIBLE);
                     break;
-                case "On":
+                case "ALARM_OFF":
                     image = (ImageView) findViewById(R.id.imageViewAlarm);
                     image.setVisibility(View.VISIBLE);
                     appText.setVisibility(View.VISIBLE);
@@ -109,18 +110,8 @@ public class MainActivity extends Activity implements MessageApi.MessageListener
                     image.setVisibility(View.VISIBLE);
                     appText.setVisibility(View.VISIBLE);
                     break;
-                case "PROCESS_CRITICAL":
-                    image = (ImageView) findViewById(R.id.imageViewAlarm);
-                    image.setVisibility(View.VISIBLE);
-                    appText.setVisibility(View.VISIBLE);
-                    break;
                 case "PROCESS_CONFIRMED":
                     image = (ImageView) findViewById(R.id.imageViewNewProcess);
-                    image.setVisibility(View.INVISIBLE);
-                    appText.setVisibility(View.INVISIBLE);
-                    break;
-                case "PROCESS_ENDED":
-                    image = (ImageView) findViewById(R.id.imageViewAlarm);
                     image.setVisibility(View.INVISIBLE);
                     appText.setVisibility(View.INVISIBLE);
                     break;
