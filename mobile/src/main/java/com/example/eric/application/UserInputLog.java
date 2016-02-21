@@ -22,11 +22,16 @@ public class UserInputLog implements Parcelable{
     private long user_id=0;
     private int versuch;
     private String modalitaet;
+    //versuchsteil 1
     private String alarmtyp;
     private String clickedButtonType;
     private String popuptime;
     private String clicktime;
     private String clearing;
+    //versuchsteil 2
+    private String prozess_id;
+    private String processBlendInTime;
+    private String confirmationtime;
 
     //Namen der Modalität
     public final String MONITOR = "Monitor";
@@ -48,10 +53,15 @@ public class UserInputLog implements Parcelable{
         user_id = in.readLong();
         versuch = in.readInt();
         modalitaet = in.readString();
+        //versuchstiel 1
         alarmtyp = in.readString();
         clickedButtonType = in.readString();
         popuptime = in.readString();
         clearing = in.readString();
+        //versuchsteil 2
+        prozess_id = in.readString();
+        processBlendInTime = in.readString();
+        confirmationtime = in.readString();
     }
 
     public String getAlarmtyp() {
@@ -74,12 +84,24 @@ public class UserInputLog implements Parcelable{
         return clickedButtonType;
     }
 
+    public String getConfirmationtime() {
+        return confirmationtime;
+    }
+
     public String getModalitaet() {
         return modalitaet;
     }
 
     public String getPopuptime() {
         return popuptime;
+    }
+
+    public String getProzess_id() {
+        return prozess_id;
+    }
+
+    public String getProcessBlendInTime() {
+        return processBlendInTime;
     }
 
     public long getUser_id() {
@@ -102,12 +124,24 @@ public class UserInputLog implements Parcelable{
         this.clickedButtonType = korrekturbutton;
     }
 
+    public void setConfirmationtime(String confirmationtime){
+        this.confirmationtime = confirmationtime;
+    }
+
     public void setModalitaet(String modalitaet) {
         this.modalitaet = modalitaet;
     }
 
     public void setPopuptime(String popuptime) {
         this.popuptime = popuptime;
+    }
+
+    public void setProzess_id(String prozess_id){
+        this.prozess_id = prozess_id;
+    }
+
+    public void setProcessBlendInTime(String processBlendInTime){
+        this.processBlendInTime = processBlendInTime;
     }
 
     public void setUser_id(long user_id) {
@@ -140,6 +174,11 @@ public class UserInputLog implements Parcelable{
         dest.writeString(popuptime);
         dest.writeString(clicktime);
         dest.writeString(clearing);
+        //versuchsteil 2
+        dest.writeString(modalitaet);
+        dest.writeString(prozess_id);
+        dest.writeString(processBlendInTime);
+        dest.writeString(confirmationtime);
     }
 
     //To pass Log Information, make UserInput parcelable

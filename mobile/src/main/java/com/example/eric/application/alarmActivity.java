@@ -55,7 +55,6 @@ public class alarmActivity extends AppCompatActivity
 
     // log data which is passed between activities
     UserInputLog ui_Log;
-    UserInputLog2 ui_Log2;
 
     //helper variables to
     private final String ALARM_A = "A";
@@ -298,7 +297,6 @@ public class alarmActivity extends AppCompatActivity
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
-        ui_Log2 = b.getParcelable(".hmi.UserInputLog2");
 
         //this is the first part of the lab
         setTimers();
@@ -465,7 +463,6 @@ public class alarmActivity extends AppCompatActivity
         dataSource.close();
         Intent continueIntent = new Intent(this, continueActivity.class);
         continueIntent.putExtra(".hmi.UserInputLog",  ui_Log);
-        continueIntent.putExtra(".hmi.UserInputLog2",  ui_Log2);
         startActivityForResult(continueIntent, CONTINUE_REQUEST_CODE);
     }
 
@@ -513,7 +510,6 @@ public class alarmActivity extends AppCompatActivity
     private void showSettings() {
         Intent settings = new Intent(this, optionActivity.class);
         settings.putExtra(".hmi.UserInputLog", ui_Log);
-        settings.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(settings);
     }
 

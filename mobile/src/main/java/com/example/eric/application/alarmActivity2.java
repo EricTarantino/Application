@@ -56,7 +56,6 @@ public class alarmActivity2 extends AppCompatActivity
 
     // log data which is passed between activities
     UserInputLog ui_Log;
-    UserInputLog2 ui_Log2;
 
     //Timers
     Timer caretakerDelay, caretaker, caretakerProcessEnds, caretakerSeconds;
@@ -94,10 +93,9 @@ public class alarmActivity2 extends AppCompatActivity
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
-        ui_Log2 = b.getParcelable(".hmi.UserInputLog2");
 
         //check if watch should be included
-        if(ui_Log2.getModalitaet()==ui_Log2.WATCH)
+        if(ui_Log.getModalitaet()==ui_Log.WATCH)
             use_watch = true;
 
         //Initialize mGoolgeAPIClient
@@ -123,11 +121,11 @@ public class alarmActivity2 extends AppCompatActivity
     public void onClickButton_Prozess_starten(View view) {
 
         //track user interaction
-        ui_Log2.setConfirmationtime(sdf.format(new Date()));
+        ui_Log.setConfirmationtime(sdf.format(new Date()));
 
         //write row to database, includes when process
         //blended in and when it was started by the user
-        dataSource.create(ui_Log2);
+        dataSource.create(ui_Log);
 
         if(use_watch)
             //Auf der watch Prozess Starten ausblenden
@@ -301,8 +299,8 @@ public class alarmActivity2 extends AppCompatActivity
     //Passe das Feld Prozess starten an und blende es ein
     public void blendInStartProcess(){
         //Gehe zum naechsten Prozess ueber
-        ui_Log2.setProzess_id(Integer.toString(currentProcessId+1));
-        ui_Log2.setProzessBlendInTime(sdf.format(new Date()));
+        ui_Log.setProzess_id(Integer.toString(currentProcessId+1));
+        ui_Log.setProcessBlendInTime(sdf.format(new Date()));
 
         //Blende das Feld mit "Prozess laeuft" und der Zeitanzeige zum ablaufenden Prozesses aus
         Button button_Prozess_läuft = (Button)findViewById(R.id.button_Prozess_läuft);
@@ -333,7 +331,6 @@ public class alarmActivity2 extends AppCompatActivity
         dataSource.close();
         Intent continueIntent = new Intent(this, continueActivity.class);
         continueIntent.putExtra(".hmi.UserInputLog",  ui_Log);
-        continueIntent.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivityForResult(continueIntent, CONTINUE_REQUEST_CODE);
     }
 
@@ -349,7 +346,7 @@ public class alarmActivity2 extends AppCompatActivity
                         // continue with delete
                         caretaker.cancel();
                         caretakerSeconds.cancel();
-                        dataSource.deleteData(ui_Log2.getUser_id(), ui_Log2.getModalitaet(), databaseHelper.TABLENAME_V2);
+                        dataSource.deleteData(ui_Log.getUser_id(), ui_Log.getModalitaet(), databaseHelper.TABLENAME_V2);
                         dataSource.close();
                         //do not use onBackPressed, but use finish()
                         alarmActivity2.this.finish();

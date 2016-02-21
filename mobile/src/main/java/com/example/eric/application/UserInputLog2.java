@@ -112,7 +112,7 @@ public class UserInputLog2 implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        Log.i("UILog Operation", "writeToParcel");
+        Log.i("UILog2 Operation", "writeToParcel");
         dest.writeLong(user_id);
         dest.writeInt(versuch);
         dest.writeString(modalitaet);
@@ -122,19 +122,19 @@ public class UserInputLog2 implements Parcelable{
     }
 
     //To pass Log Information, make UserInput parcelable
-    public static final Parcelable.Creator<UserInputLog> CREATOR =
-            new Parcelable.Creator<UserInputLog>(){
+    public static final Parcelable.Creator<UserInputLog2> CREATOR =
+            new Parcelable.Creator<UserInputLog2>(){
 
                 @Override
-                public UserInputLog createFromParcel(Parcel source) {
-                    Log.i("UILog Operation","Create From Parcel");
-                    return new UserInputLog(source);
+                public UserInputLog2 createFromParcel(Parcel source) {
+                    Log.i("UILog2 Operation","Create From Parcel");
+                    return new UserInputLog2(source);
                 }
 
                 @Override
-                public UserInputLog[] newArray(int size){
-                    Log.i("UILog Operation","newArray");
-                    return new UserInputLog[size];
+                public UserInputLog2[] newArray(int size){
+                    Log.i("UILog2 Operation","newArray");
+                    return new UserInputLog2[size];
                 }
             };
 }

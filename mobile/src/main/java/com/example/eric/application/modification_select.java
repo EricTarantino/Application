@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class modification_select extends AppCompatActivity {
 
@@ -17,7 +19,6 @@ public class modification_select extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////
 
     UserInputLog ui_Log;
-    UserInputLog2 ui_Log2;
 
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -36,11 +37,36 @@ public class modification_select extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modification_select);
 
-        //invisibleImpossibleCondition();
+        //do all the load work
+        loadActivity();
+    }
+
+    //do the work to load the activity
+    private void loadActivity() {
         //Get the parcelable object to move around data
         Bundle b = getIntent().getExtras();
         ui_Log = b.getParcelable(".hmi.UserInputLog");
-        ui_Log2 = b.getParcelable(".hmi.UserInputLog2");
+
+        if(ui_Log.getVersuch()==1) {
+            Button buttonGoToVersuch = (Button) findViewById(R.id.button_goToVersuch1);
+            buttonGoToVersuch.setVisibility(View.INVISIBLE);
+            setLabel("Versuchsteil 1");
+            buttonGoToVersuch = (Button) findViewById(R.id.button_goToVersuch2);
+            buttonGoToVersuch.setVisibility(View.VISIBLE);
+        }
+
+        if(ui_Log.getVersuch()==2) {
+            Button buttonGoToVersuch = (Button) findViewById(R.id.button_goToVersuch2);
+            buttonGoToVersuch.setVisibility(View.INVISIBLE);
+            setLabel("Versuchsteil 2");
+            buttonGoToVersuch = (Button) findViewById(R.id.button_goToVersuch1);
+            buttonGoToVersuch.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setLabel(String labelText) {
+        TextView label = (TextView) findViewById(R.id.text_Kondition);
+        label.setText(labelText);
     }
 
     @Override
@@ -80,35 +106,39 @@ public class modification_select extends AppCompatActivity {
 
     public void goToMonitorVersuch(View view) {
         ui_Log.setModalitaet(ui_Log.MONITOR);
-        Intent confirmationToStart = new Intent(this, confirmationToStart.class);
-        confirmationToStart.putExtra(".hmi.UserInputLog", ui_Log);
-        confirmationToStart.putExtra(".hmi.UserInputLog2", ui_Log2);
-        confirmationToStart.putExtra("caller", "Teil1");
-        startActivity(confirmationToStart);
+        goToConfirmationToStart();
 
     }
 
     public void goToWatchVersuch(View view) {
         ui_Log.setModalitaet(ui_Log.WATCH);
-        Intent confirmationToStart = new Intent(this, confirmationToStart.class);
+        goToConfirmationToStart();
+    }
+
+    private void goToConfirmationToStart() {
+        Intent confirmationToStart = new Intent(this, com.example.eric.application.confirmationToStart.class);
         confirmationToStart.putExtra(".hmi.UserInputLog", ui_Log);
-        confirmationToStart.putExtra(".hmi.UserInputLog2", ui_Log2);
-        confirmationToStart.putExtra("caller", "Teil1");
         startActivity(confirmationToStart);
     }
 
     public void showSettings() {
         Intent settings = new Intent(this, optionActivity.class);
         settings.putExtra(".hmi.UserInputLog", ui_Log);
-        settings.putExtra(".hmi.UserInputLog2", ui_Log2);
         startActivity(settings);
     }
 
     public void goToVersuch2(View view){
-        Intent modification_select_2 = new Intent(this, modification_select_2.class);
-        modification_select_2.putExtra(".hmi.UserInputLog", ui_Log);
-        modification_select_2.putExtra(".hmi.UserInputLog2", ui_Log2);
-        startActivity(modification_select_2);
+
+        ui_Log.setVersuch(2);
+
+        loadActivity();
+    }
+
+    public void goToVersuch1(View view){
+
+        ui_Log.setVersuch(1);
+
+        loadActivity();
     }
 }
 

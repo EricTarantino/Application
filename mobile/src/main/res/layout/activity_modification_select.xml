@@ -66,12 +66,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Versuch 2"
-        android:id="@+id/button2"
+        android:id="@+id/button_goToVersuch2"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="@drawable/arrowright"
         android:nestedScrollingEnabled="true"
         android:textColor="#ffffff"
         android:onClick="goToVersuch2"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Versuch 1"
+        android:id="@+id/button_goToVersuch1"
+        android:background="@drawable/arrowleft"
+        android:onClick="goToVersuch1"
+        android:textColor="#ffffff"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
