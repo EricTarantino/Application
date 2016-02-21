@@ -48,32 +48,31 @@ public class databaseSource{
 
     //Add user data by use of modified UI_Log
     public UserInputLog create(UserInputLog ui_Log){
+
         ContentValues values = new ContentValues();
-        values.put(databaseHelper.USER_ID, ui_Log.getUser_id());
-        values.put(databaseHelper.VERSUCH, ui_Log.getVersuch());
-        values.put(databaseHelper.MODALITÄT, ui_Log.getModalitaet());
-        values.put(databaseHelper.ALARMTYP, ui_Log.getAlarmtyp());
-        values.put(databaseHelper.CLICKEDTYP, ui_Log.getClickedButtonType());
-        values.put(databaseHelper.POPUPTIME, ui_Log.getPopuptime());
-        values.put(databaseHelper.CLICKTIME, ui_Log.getClicktime());
-        values.put(databaseHelper.CLEARING, ui_Log.getClearing());
-        database.insert(databaseHelper.TABLENAME, null, values);
+
+        if(ui_Log.getVersuch()==1) {
+            values.put(databaseHelper.USER_ID, ui_Log.getUser_id());
+            values.put(databaseHelper.VERSUCH, ui_Log.getVersuch());
+            values.put(databaseHelper.MODALITÄT, ui_Log.getModalitaet());
+            values.put(databaseHelper.ALARMTYP, ui_Log.getAlarmtyp());
+            values.put(databaseHelper.CLICKEDTYP, ui_Log.getClickedButtonType());
+            values.put(databaseHelper.POPUPTIME, ui_Log.getPopuptime());
+            values.put(databaseHelper.CLICKTIME, ui_Log.getClicktime());
+            values.put(databaseHelper.CLEARING, ui_Log.getClearing());
+            database.insert(databaseHelper.TABLENAME_V1, null, values);
+        }
+        if(ui_Log.getVersuch()==2){
+            values.put(databaseHelper.USER_ID, ui_Log.getUser_id());
+            values.put(databaseHelper.VERSUCH, ui_Log.getVersuch());
+            values.put(databaseHelper.MODALITÄT, ui_Log.getModalitaet());
+            values.put(databaseHelper.PROZESS_ID, ui_Log.getProzess_id());
+            values.put(databaseHelper.PROCESS_BLENDIN, ui_Log.getProcessBlendInTime());
+            values.put(databaseHelper.CONFIRMATIONTIME, ui_Log.getConfirmationtime());
+            database.insert(databaseHelper.TABLENAME_V2, null, values);
+        }
         Log.e("Database Source", "ONE ROW INSERTED...");
         return ui_Log;
-    }
-
-    //Add user data by use of modified UI_Log
-    public UserInputLog2 create(UserInputLog2 ui_Log2){
-        ContentValues values = new ContentValues();
-        values.put(databaseHelper.USER_ID_V2, ui_Log2.getUser_id());
-        values.put(databaseHelper.VERSUCH_V2, ui_Log2.getVersuch());
-        values.put(databaseHelper.MODALITÄT_V2, ui_Log2.getModalitaet());
-        values.put(databaseHelper.PROZESS_ID_V2, ui_Log2.getProzess_id());
-        values.put(databaseHelper.PROCESS_BLENDIN_V2, ui_Log2.getProcessBlendInTime());
-        values.put(databaseHelper.CLICKTIME, ui_Log2.getConfirmationtime());
-        database.insert(databaseHelper.TABLENAME_V2, null, values);
-        Log.e("Database Source", "ONE ROW INSERTED...");
-        return ui_Log2;
     }
 
     //close database, here for logcat
@@ -86,15 +85,15 @@ public class databaseSource{
 
     //deletes data of a user
     public void deleteData(long User, String modalitaet, String Tablename) {
-       String whereClause;
-        if(Tablename==databaseHelper.TABLENAME) {
-            whereClause = databaseHelper.USER_ID + " = " + User
-                    + " AND " + databaseHelper.MODALITÄT + " = " + modalitaet;
-            database.delete(databaseHelper.TABLENAME, whereClause, null);
+
+       String whereClause = databaseHelper.USER_ID + " = " + User
+               + " AND " + databaseHelper.MODALITÄT + " = " + modalitaet;
+
+        if(Tablename==databaseHelper.TABLENAME_V1) {
+            database.delete(databaseHelper.TABLENAME_V1, whereClause, null);
         }
+
         if(Tablename==databaseHelper.TABLENAME_V2) {
-            whereClause = databaseHelper.USER_ID + " = " + User
-                    + " AND " + databaseHelper.MODALITÄT_V2 + " = " + modalitaet;
             database.delete(databaseHelper.TABLENAME_V2, whereClause, null);
         }
     }

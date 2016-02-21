@@ -24,7 +24,6 @@
         <activity android:name=".modification_select" />
         <activity android:name=".alarmActivity" />
         <activity android:name=".continueActivity" />
-        <activity android:name=".modification_select_2" />
         <activity android:name=".alarmActivity2" />
         <activity android:name=".confirmationToStart"></activity>
     </application>

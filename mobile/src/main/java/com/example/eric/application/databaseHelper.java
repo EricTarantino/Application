@@ -22,6 +22,13 @@ public class databaseHelper extends SQLiteOpenHelper {
     //                                                                               //
     ///////////////////////////////////////////////////////////////////////////////////
 
+    //label fuer die Ausgabe
+    String dbColumnLabel1 = "KEY_ROW_ID,Benutzer Id,Versuch,Kondition," +
+            "Alarmtyp,Alarmklick,Anzeigezeitpunkt,Bestätigungszeitpunkt,Korrektur";
+
+    String dbColumnLabel2 = "KEY_ROW_ID,Benutzer Id, Versuch, Kondition," +
+            " Prozess Id, Anzeigezeit, Startzeit";
+
     // Logcat tag
     private static final String LOG = "DatabaseHelper";
 
@@ -31,35 +38,31 @@ public class databaseHelper extends SQLiteOpenHelper {
     //Database name
     public static final String DATABASE_NAME = "database.db";
 
-    //Table name
-    protected static final String TABLENAME = "db_table_name";
+    //Table names
+    protected static final String TABLENAME_V1 = "db_table_name_V1";
+    protected static final String TABLENAME_V2 = "db_table_name_V2";
 
     // Common column names
     protected static final String KEY_ROWID = "id";
     protected static final String USER_ID = "user_id";
     protected static final String VERSUCH = "versuch";
     protected static final String MODALITÄT = "modalitaet";
+
+    // Column names Versuch 1
     protected static final String ALARMTYP = "alarmtype";
     protected static final String CLICKEDTYP = "correctiontype";
     protected static final String POPUPTIME = "popup_time";
     protected static final String CLICKTIME = "click_time";
     protected static final String CLEARING = "clearing";
 
-    //Table name
-    protected static final String TABLENAME_V2 = "db_table_name_V2";
-
-    // Common column names
-    protected static final String KEY_ROWID_V2 = "id_V2";
-    protected static final String USER_ID_V2 = "user_id_V2";
-    protected static final String VERSUCH_V2 = "versuch_V2";
-    protected static final String MODALITÄT_V2 = "modalitaet_V2";
-    protected static final String PROZESS_ID_V2 = "prozess_Id_V2";
-    protected static final String PROCESS_BLENDIN_V2 = "prozess_anzeigezeit_V2";
-    protected static final String CONFIRMATIONTIME_V2 = "prozess_startzeit_V2";
+    // Column names Versuch 2
+    protected static final String PROZESS_ID = "prozess_Id";
+    protected static final String PROCESS_BLENDIN = "prozess_anzeigeZeitpunkt";
+    protected static final String CONFIRMATIONTIME = "prozess_startzeit";
 
     //Table create statement
-    private static final String TABLE_CREATE =
-            "CREATE TABLE " + TABLENAME +" ("
+    private static final String TABLE_CREATE_V1 =
+            "CREATE TABLE " + TABLENAME_V1 +" ("
                     + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + USER_ID + "  INTEGER, "
                     + VERSUCH + "  INTEGER, "
@@ -74,13 +77,13 @@ public class databaseHelper extends SQLiteOpenHelper {
     //Table create statement
     private static final String TABLE_CREATE_V2 =
             "CREATE TABLE " + TABLENAME_V2 +" ("
-                    + KEY_ROWID_V2 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + USER_ID_V2 + "  INTEGER, "
-                    + VERSUCH_V2 + "  INTEGER, "
-                    + MODALITÄT_V2 + " TEXT, "
-                    + PROZESS_ID_V2 + " TEXT, "
-                    + PROCESS_BLENDIN_V2 + " TEXT, "
-                    + CONFIRMATIONTIME_V2 + " TEXT, "
+                    + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + USER_ID + "  INTEGER, "
+                    + VERSUCH + "  INTEGER, "
+                    + MODALITÄT + " TEXT, "
+                    + PROZESS_ID + " TEXT, "
+                    + PROCESS_BLENDIN + " TEXT, "
+                    + CONFIRMATIONTIME + " TEXT, "
                     + ");";
     ///////////////////////////////////////////////////////////////////////////////////
     //                                                                               //
@@ -96,7 +99,7 @@ public class databaseHelper extends SQLiteOpenHelper {
     // creating required tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(TABLE_CREATE);
+        db.execSQL(TABLE_CREATE_V1);
         db.execSQL(TABLE_CREATE_V2);
         Log.e(LOG, "Database finished");
     }
@@ -111,7 +114,7 @@ public class databaseHelper extends SQLiteOpenHelper {
     //TODO: CHECK THIS USAGE?
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLENAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLENAME_V1);
         db.execSQL("DROP TABLE IF EXISTS " + TABLENAME_V2);
         onCreate(db);
     }
@@ -141,7 +144,7 @@ public class databaseHelper extends SQLiteOpenHelper {
     //exports the data base
     public String exportDatabase(Context context, String Tablename) {
 
-        if(!(Tablename== TABLENAME || Tablename==TABLENAME_V2)){
+        if(!(Tablename== TABLENAME_V1 || Tablename==TABLENAME_V2)){
             Log.e(LOG, "Tabelle exisitert nicht");
             return "Export fehlgeschlagen";
         }
@@ -167,7 +170,7 @@ public class databaseHelper extends SQLiteOpenHelper {
             PrintWriter printWriter = null;
 
             try {
-                if (Tablename == TABLENAME) {
+                if (Tablename == TABLENAME_V1) {
                     file = new File(exportDir, "MaxiMMI_db_v1.csv");
                 } else {
                     file = new File(exportDir, "MaxiMMI_db_v2.csv");
@@ -200,7 +203,7 @@ public class databaseHelper extends SQLiteOpenHelper {
                 if (printWriter != null) printWriter.close();
             }
             //If there are no errors, return true.
-            if (Tablename == TABLENAME) {
+            if (Tablename == TABLENAME_V1) {
                 return "Datenbank zu Teil 1 exportiert";
             } else {
                 return "Datenbank zu Teil 2 exportiert";
@@ -216,11 +219,11 @@ public class databaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    //TODO: Wie sollen die Label heißen
     private PrintWriter printLines(String Tablename, Cursor curCSV, PrintWriter printWriter) {
-        if (Tablename == TABLENAME) {
-            printWriter.println("TABELLE ZU VERSUCH 1");
-            printWriter.println("KEY_ROW_ID,USER_ID,VERSUCH,MODALITÄT," +
-                    "ALARMTYP,CLICKEDTYP,POPUPTIME,CLICKTIME,KORREKTUR");
+        if (Tablename == TABLENAME_V1) {
+            printWriter.println("Tabelle zu Versuch 1");
+            printWriter.println(dbColumnLabel1);
 
             while (curCSV.moveToNext()) {
                 Long key_rowid = curCSV.getLong(curCSV.getColumnIndex(KEY_ROWID));
@@ -244,18 +247,17 @@ public class databaseHelper extends SQLiteOpenHelper {
             }
             //Tabelle 2 soll exportiert werden
         } else {
-            printWriter.println("TABELLE ZU VERSUCH 2");
-            printWriter.println("KEY_ROW_ID_V2,USER_ID_V2, VERSUCH_V2, MODALITÄT_V2," +
-                    " PROZESS_ID_V2, PROZESS_BLENDIN_V2, CONFIRMATIONTIME_V2");
+            printWriter.println("Tabelle zu Versuch 2");
+            printWriter.println(dbColumnLabel2);
 
             while (curCSV.moveToNext()) {
-                Long key_rowid_V2 = curCSV.getLong(curCSV.getColumnIndex(KEY_ROWID_V2));
+                Long key_rowid_V2 = curCSV.getLong(curCSV.getColumnIndex(KEY_ROWID));
                 String user_id = curCSV.getString(curCSV.getColumnIndex(USER_ID));
-                String versuch_V2 = curCSV.getString(curCSV.getColumnIndex(VERSUCH_V2));
-                String modalitaet_V2 = curCSV.getString(curCSV.getColumnIndex(MODALITÄT_V2));
-                String process_Id_V2 = curCSV.getString(curCSV.getColumnIndex(PROZESS_ID_V2));
-                String process_blendIn_V2 = curCSV.getString(curCSV.getColumnIndex(PROCESS_BLENDIN_V2));
-                String confirmationtime_V2 = curCSV.getString(curCSV.getColumnIndex(CONFIRMATIONTIME_V2));
+                String versuch_V2 = curCSV.getString(curCSV.getColumnIndex(VERSUCH));
+                String modalitaet_V2 = curCSV.getString(curCSV.getColumnIndex(MODALITÄT));
+                String process_Id_V2 = curCSV.getString(curCSV.getColumnIndex(PROZESS_ID));
+                String process_blendIn_V2 = curCSV.getString(curCSV.getColumnIndex(PROCESS_BLENDIN));
+                String confirmationtime_V2 = curCSV.getString(curCSV.getColumnIndex(CONFIRMATIONTIME));
 
                 /**Create the line to write in the .csv file.
                  * We need a String where values are comma separated.
